@@ -1,62 +1,223 @@
-
-
 @extends('adminlte::page')
+
+@section('title', 'Notifications')
 
 @section('content')
 
-<h2>Notifications</h2>
+<div class="container-fluid">
 
-<table class="table table-bordered">
+    {{-- Success Message --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
 
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Status</th>
-        <th>Date</th>
-        <th>Action</th>
-    </tr>
+            {{ session('success') }}
 
-    @foreach($notifications as $notification)
+            <button type="button"
+                class="close"
+                data-dismiss="alert">
 
-    <tr>
+                <span>&times;</span>
 
-        <td>{{ $notification->id }}</td>
+            </button>
 
-        <td>{{ $notification->title }}</td>
+        </div>
+    @endif
 
-        <td>
-            @if($notification->is_read)
-            Read
-            @else
-            Unread
-            @endif
-        </td>
+    <div class="card">
 
-        <td>
-            {{ $notification->created_at->format('d-m-Y') }}
-        </td>
-        <td>
-            @if(!$notification->is_read)
+        <div class="card-header d-flex justify-content-between align-items-center">
 
-            <a href="/notifications/read/{{ $notification->id }}"
-                class="btn btn-success btn-sm">
+            <h3 class="card-title">
+                Notifications
+            </h3>
 
-                Mark Read
+            <form action="{{ route('notifications.markAllRead') }}"
+                method="POST">
 
-            </a>
+                @csrf
 
-            @else
+                <button class="btn btn-primary btn-sm">
 
-            <span class="badge bg-success">
-                Read
-            </span>
+                    <i class="fas fa-check-double"></i>
 
-            @endif
-        </td>
-    </tr>
+                    Mark All Read
 
-    @endforeach
+                </button>
 
-</table>
+            </form>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Title</th>
+
+                            <th>Message</th>
+
+                            <th>Type</th>
+
+                            <th>Status</th>
+
+                            <th>Date</th>
+
+                            <th width="170">
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    @forelse($notifications as $notification)
+
+                        <tr>
+
+                            <td>
+                                {{ $notification->id }}
+                            </td>
+
+                            <td>
+
+                                @if($notification->icon)
+
+                                    <i class="{{ $notification->icon }} text-{{ $notification->color }}"></i>
+
+                                @endif
+
+                                {{ $notification->title }}
+
+                            </td>
+
+                            <td>
+
+                                {{ $notification->message }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge badge-info">
+
+                                    {{ ucfirst($notification->type) }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                @if($notification->is_read)
+
+                                    <span class="badge badge-success">
+
+                                        Read
+
+                                    </span>
+
+                                @else
+
+                                    <span class="badge badge-warning">
+
+                                        Unread
+
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                            <td>
+
+                                {{ $notification->created_at->format('d M Y h:i A') }}
+
+                            </td>
+
+                            <td>
+
+                                @if(!$notification->is_read)
+
+                                    <a href="{{ route('notifications.read',$notification->id) }}"
+                                        class="btn btn-success btn-sm">
+
+                                        <i class="fas fa-check"></i>
+
+                                        Read
+
+                                    </a>
+
+                                @endif
+
+
+                                <form
+                                    action="{{ route('notifications.destroy',$notification->id) }}"
+                                    method="POST"
+                                    style="display:inline;">
+
+                                    @csrf
+
+                                    @method('DELETE')
+
+                                    <button
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Delete this notification?')">
+
+                                        <i class="fas fa-trash"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center">
+
+                                No Notifications Found
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        @if(method_exists($notifications,'links'))
+
+        <div class="card-footer">
+
+            {{ $notifications->links() }}
+
+        </div>
+
+        @endif
+
+    </div>
+
+</div>
 
 @stop

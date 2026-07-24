@@ -8,6 +8,10 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\ProjectMember;
 use App\Models\ActivityLog;
+use App\Mail\ProjectAssignedMail;
+use App\Mail\ProjectStatusUpdatedMail;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\NotificationController;
 
 class ProjectController extends Controller
 {
@@ -40,7 +44,7 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
         $project = Project::findOrFail($id);
-
+        $oldStatus = $project->status;
         $project->update([
 
             'title'             => $request->title,
@@ -58,6 +62,22 @@ class ProjectController extends Controller
 
         ]);
 
+$project->refresh()->load('client');
+
+if ($oldStatus != $project->status) {
+
+    NotificationController::createNotification(
+    $project->client_id,
+    'Project Status Updated',
+    'Project "' . $project->title . '" status changed to ' . $project->status,
+    'project',
+    route('projects.index'),
+    'fas fa-folder-open',
+    'success'
+);
+    Mail::to($project->client->email)
+        ->send(new ProjectStatusUpdatedMail($project));
+}
         return redirect('/admin/project-monitoring')
             ->with('success', 'Project Updated Successfully');
     }
@@ -126,6 +146,13 @@ class ProjectController extends Controller
             'user_id' => $request->user_id,
 
         ]);
+        $project = Project::findOrFail($request->project_id);
+
+        $user = User::findOrFail($request->user_id);
+
+        Mail::to($user->email)->send(
+            new ProjectAssignedMail($project, $user)
+        );
 
         return back()->with(
             'success',

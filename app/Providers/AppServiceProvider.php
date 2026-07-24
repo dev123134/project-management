@@ -23,40 +23,39 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-public function boot(): void
-{
-    if (config('app.env') === 'production') {
-    URL::forceScheme('https');
-}
-
-    Gate::define('admin', function (User $user) {
-        return $user->role === 'admin';
-    });
-
-    Gate::define('freelancer', function (User $user) {
-        return $user->role === 'freelancer';
-    });
-
-    Gate::define('client', function (User $user) {
-        return $user->role === 'client';
-    });
-
-    Gate::define('employee', function (User $user) {
-        return $user->role === 'employee';
-    });
-
-    View::composer('*', function ($view) {
-
-        $count = 0;
-
-        if (Auth::check()) {
-            $count = Notification::where('user_id', Auth::id())
-                ->where('is_read', 0)
-                ->count();
+    public function boot(): void
+    {
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
         }
 
-        $view->with('notificationCount', $count);
+        Gate::define('admin', function (User $user) {
+            return $user->role === 'admin';
+        });
 
-    });
-}
+        Gate::define('freelancer', function (User $user) {
+            return $user->role === 'freelancer';
+        });
+
+        Gate::define('client', function (User $user) {
+            return $user->role === 'client';
+        });
+
+        Gate::define('employee', function (User $user) {
+            return $user->role === 'employee';
+        });
+
+        View::composer('*', function ($view) {
+
+            $count = 0;
+
+            if (Auth::check()) {
+                $count = Notification::where('user_id', Auth::id())
+                    ->where('is_read', 0)
+                    ->count();
+            }
+
+            $view->with('notificationCount', $count);
+        });
+    }
 }

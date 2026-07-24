@@ -7,6 +7,10 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\TaskAssignedMail;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\NotificationController;
+
 
 class TaskController extends Controller
 {
@@ -55,22 +59,39 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        Task::create([
-            'project_id'  => $request->project_id,
-            'assigned_by' => Auth::id(),
-            'assigned_to' => $request->assigned_to,
-            'title'       => $request->title,
-            'description' => $request->description,
-            'priority'    => $request->priority,
-            'due_date'    => $request->due_date,
-            'status'      => 'Pending',
-        ]);
+public function store(Request $request)
+{
+    $task = Task::create([
+        'project_id'  => $request->project_id,
+        'assigned_by' => Auth::id(),
+        'assigned_to' => $request->assigned_to,
+        'title'       => $request->title,
+        'description' => $request->description,
+        'priority'    => $request->priority,
+        'due_date'    => $request->due_date,
+        'status'      => 'Pending',
+    ]);
 
-        return redirect()->route('tasks.index')
-            ->with('success', 'Task Created Successfully');
-    }
+    $task->load(['project', 'assigner', 'assignee']);
+
+    NotificationController::createNotification(
+    $task->assigned_to,
+    'New Task Assigned',
+    'A new task "' . $task->title . '" has been assigned to you.',
+    'task',
+    route('tasks.index'),
+    'fas fa-tasks',
+    'primary'
+);
+
+    Mail::to($task->assignee->email)->send(
+        new TaskAssignedMail($task)
+    );
+
+    return redirect()
+        ->route('tasks.index')
+        ->with('success', 'Task Created Successfully');
+}
 
     /**
      * Display the specified resource.

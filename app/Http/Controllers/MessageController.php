@@ -39,11 +39,25 @@ class MessageController extends Controller
             $request->file('file')
                 ->move(public_path('uploads'), $fileName);
         }
-        Notification::create([
+       Notification::create([
 
-            'user_id' => $request->receiver_id,
-            'title'   => 'You received a new message',
-        ]);
+    'user_id' => $request->receiver_id,
+
+    'title' => 'New Message',
+
+    'message' => Auth::user()->name . ' sent you a new message.',
+
+    'type' => 'chat',
+
+    'icon' => 'fas fa-comments',
+
+    'color' => 'info',
+
+    'url' => '/messages',
+
+    'is_read' => false,
+
+]);
         Message::create([
             'sender_id' => Auth::id(),
             'receiver_id' => $request->receiver_id,
@@ -95,14 +109,25 @@ class MessageController extends Controller
             'file' => $fileName,
 
         ]);
+Notification::create([
 
-        Notification::create([
+    'user_id' => $request->receiver_id,
 
-            'user_id' => $request->receiver_id,
+    'title' => 'New Message',
 
-            'title' => 'You received a new message',
+    'message' => Auth::user()->name . ' sent you a new message.',
 
-        ]);
+    'type' => 'chat',
+
+    'icon' => 'fas fa-comments',
+
+    'color' => 'info',
+
+    'url' => '/messages',
+
+    'is_read' => false,
+
+]);
 
         return back();
     }

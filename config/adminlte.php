@@ -428,6 +428,8 @@ return [
 
             ],
         ],
+
+
         [
             'text' => 'File Management',
             'icon' => 'fas fa-folder-open',
@@ -470,7 +472,33 @@ return [
             'icon' => 'fas fa-home',
             'can'  => 'employee',
         ],
+        [
+            'text' => 'Internal Chat System',
+            'icon' => 'fas fa-comments',
+            'can'  => 'employee',
 
+            'submenu' => [
+
+                [
+                    'text' => 'One-to-One Chat',
+                    'url'  => '/messages',
+                    'icon' => 'fas fa-comment',
+                ],
+
+                [
+                    'text' => 'Group Chat',
+                    'url'  => '/groups',
+                    'icon' => 'fas fa-users',
+                ],
+
+                [
+                    'text' => 'Notifications',
+                    'url'  => '/notifications',
+                    'icon' => 'fas fa-bell',
+                ],
+
+            ],
+        ],
         [
             'text' => 'Task Management',
             'icon' => 'fas fa-tasks',
@@ -546,7 +574,33 @@ return [
 
             ],
         ],
+        [
+            'text' => 'Internal Chat System',
+            'icon' => 'fas fa-comments',
+            'can'  => 'client',
 
+            'submenu' => [
+
+                [
+                    'text' => 'One-to-One Chat',
+                    'url'  => '/messages',
+                    'icon' => 'fas fa-comment',
+                ],
+
+                [
+                    'text' => 'Group Chat',
+                    'url'  => '/groups',
+                    'icon' => 'fas fa-users',
+                ],
+
+                [
+                    'text' => 'Notifications',
+                    'url'  => '/notifications',
+                    'icon' => 'fas fa-bell',
+                ],
+
+            ],
+        ],
         [
             'text' => 'Profile',
             'url'  => '/profile',
@@ -589,18 +643,12 @@ return [
             ],
         ],
 
-        // [
-        //     'text' => 'Role Permission',
-        //     'url'  => '/admin/roles',
-        //     'icon' => 'fas fa-user-shield',
-        //     'can'  => 'admin',
-        // ],
-
         [
             'text' => 'Chat Monitoring',
             'icon' => 'fas fa-comments',
             'can'  => 'admin',
             'submenu' => [
+                
                 // [
                 //     'text'  => 'Dashboard',
                 //     'route' => 'admin.chat.dashboard',

@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\BackupController;
+use Illuminate\Support\Facades\Mail;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -255,8 +258,22 @@ Route::get('/chat/{id}', [MessageController::class, 'chat']);
 Route::post('/chat/send', [MessageController::class, 'send']);
 
 
-Route::get('/notifications', [NotificationController::class, 'index']);
-Route::get('/notifications/read/{id}', [NotificationController::class, 'markRead']);
+ // Notification List
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+
+    // Mark Single Notification as Read
+    Route::get('/notifications/read/{id}', [NotificationController::class, 'markRead'])
+        ->name('notifications.read');
+
+    // Mark All Notifications as Read
+    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])
+        ->name('notifications.markAllRead');
+
+    // Delete Notification
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
+        ->name('notifications.destroy');
+
 
 Route::get('/groups', [GroupController::class, 'index']);
 Route::get('/groups/create', [GroupController::class, 'create']);
@@ -284,5 +301,14 @@ Route::post('/project-files-version/{id}', [ProjectFileController::class, 'uploa
 Route::get('/project-files-version-form/{id}', [ProjectFileController::class, 'versionForm'])->name('project-files.version.form');
 Route::resource('project-files', ProjectFileController::class);
 
+Route::get('/test-email', function () {
+
+    Mail::raw('Congratulations! Laravel Email is working successfully.', function ($message) {
+        $message->to('bdev2304@gmail.com')
+                ->subject('Laravel Test Email');
+    });
+
+    return 'Test Email Sent Successfully!';
+});
 
 require __DIR__ . '/auth.php';
