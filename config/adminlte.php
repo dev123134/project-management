@@ -589,12 +589,12 @@ return [
             ],
         ],
 
-        [
-            'text' => 'Role Permission',
-            'url'  => '/admin/roles',
-            'icon' => 'fas fa-user-shield',
-            'can'  => 'admin',
-        ],
+        // [
+        //     'text' => 'Role Permission',
+        //     'url'  => '/admin/roles',
+        //     'icon' => 'fas fa-user-shield',
+        //     'can'  => 'admin',
+        // ],
 
         [
             'text' => 'Chat Monitoring',
