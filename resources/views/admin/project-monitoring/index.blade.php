@@ -16,7 +16,9 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-striped table-hover">
 
             <thead>
 
@@ -46,7 +48,7 @@
                 ->where('status','Completed')
                 ->count();
 
-                $progress = $total>0 ? round(($completed/$total)*100) : 0;
+                $progress = $total > 0 ? round(($completed/$total)*100) : 0;
 
                 @endphp
 
@@ -58,23 +60,23 @@
 
                     <td>
 
-                        @if($project->status=='Completed')
+                        @if($project->status == 'Completed')
 
-                        <span class="badge bg-success">
-                            Completed
-                        </span>
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
 
-                        @elseif($project->status=='In Progress')
+                        @elseif($project->status == 'In Progress')
 
-                        <span class="badge bg-warning">
-                            In Progress
-                        </span>
+                            <span class="badge bg-warning">
+                                In Progress
+                            </span>
 
                         @else
 
-                        <span class="badge bg-danger">
-                            Pending
-                        </span>
+                            <span class="badge bg-danger">
+                                Pending
+                            </span>
 
                         @endif
 
@@ -85,13 +87,13 @@
                         <div class="progress">
 
                             <div class="progress-bar bg-success"
-                                style="width: {{ $project->progress }}%;"
+                                 style="width: {{ $project->progress }}%;">
 
                                 {{ $project->getAttribute('progress') }}%
 
-                                </div>
-
                             </div>
+
+                        </div>
 
                     </td>
 
@@ -107,32 +109,47 @@
 
                     </td>
 
-
-
                     <td>
+
                         <a href="/projects/edit/{{ $project->id }}"
-                            class="btn btn-warning btn-sm">
+                           class="btn btn-warning btn-sm">
 
                             <i class="fas fa-edit"></i>
 
                         </a>
+
                         <a href="{{ route('admin.project.monitoring.show',$project->id) }}"
-                            class="btn btn-info btn-sm">
+                           class="btn btn-info btn-sm">
 
                             <i class="fas fa-eye"></i>
 
                         </a>
-                        <form action="{{ url('/admin/project-monitoring') . '/' . $project->id }}" method="POST" style="display:inline-block;"
-                            onsubmit="return confirm('Are you sure you want to delete this project?')">
+
+                        <a href="/projects/team/{{ $project->id }}"
+                           class="btn btn-primary btn-sm"
+                           title="Manage Team">
+
+                            <i class="fas fa-users"></i>
+
+                        </a>
+
+                        <form action="{{ url('/admin/project-monitoring') . '/' . $project->id }}"
+                              method="POST"
+                              style="display:inline-block;"
+                              onsubmit="return confirm('Are you sure you want to delete this project?')">
 
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-danger btn-sm">
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+
                                 <i class="fas fa-trash"></i>
+
                             </button>
 
                         </form>
+
                     </td>
 
                 </tr>
@@ -144,6 +161,8 @@
         </table>
 
     </div>
+
+</div>
 
 </div>
 

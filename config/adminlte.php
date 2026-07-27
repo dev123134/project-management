@@ -350,11 +350,7 @@ return [
                     'icon' => 'fas fa-history',
                 ],
 
-                [
-                    'text' => 'Trash Projects',
-                    'url'  => '/projects/trash',
-                    'icon' => 'fas fa-trash',
-                ],
+
             ],
         ],
 
@@ -393,16 +389,16 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'All Tasks',
+                    'text' => 'My Tasks',
                     'url'  => '/tasks',
                     'icon' => 'fas fa-list',
                 ],
 
-                [
-                    'text' => 'Create Task',
-                    'url'  => '/tasks/create',
-                    'icon' => 'fas fa-plus-circle',
-                ],
+                // [
+                //     'text' => 'Create Task',
+                //     'url'  => '/tasks/create',
+                //     'icon' => 'fas fa-plus-circle',
+                // ],
 
                 [
                     'text' => 'Assigned Tasks',
@@ -420,11 +416,11 @@ return [
                     'url'  => '/task-attachments',
                     'icon' => 'fas fa-paperclip',
                 ],
-                [
-                    'text' => 'Trash Tasks',
-                    'url'  => '/tasks/trash',
-                    'icon' => 'fas fa-trash',
-                ],
+                // [
+                //     'text' => 'Trash Tasks',
+                //     'url'  => '/tasks/trash',
+                //     'icon' => 'fas fa-trash',
+                // ],
 
             ],
         ],
@@ -449,11 +445,11 @@ return [
                     'icon' => 'fas fa-upload',
                 ],
 
-                [
-                    'text' => 'Trash Files',
-                    'url'  => '/project-files-trash',
-                    'icon' => 'fas fa-trash',
-                ],
+                // [
+                //     'text' => 'Trash Files',
+                //     'url'  => '/project-files-trash',
+                //     'icon' => 'fas fa-trash',
+                // ],
 
             ],
         ],
@@ -614,7 +610,6 @@ return [
             'icon' => 'fas fa-tachometer-alt',
             'can'  => 'admin',
         ],
-
         [
             'text' => 'User Management',
             'icon' => 'fas fa-users-cog',
@@ -642,13 +637,86 @@ return [
 
             ],
         ],
+        [
+            'text' => 'Task Management',
+            'icon' => 'fas fa-tasks',
+            'can'  => 'admin',
+
+            'submenu' => [
+
+                [
+                    'text' => 'All Tasks',
+                    'url'  => '/tasks',
+                    'icon' => 'fas fa-list',
+                ],
+
+                [
+                    'text' => 'Create Task',
+                    'url'  => '/tasks/create',
+                    'icon' => 'fas fa-plus-circle',
+                ],
+
+                [
+                    'text' => 'Assigned Tasks',
+                    'url'  => '/tasks/assigned',
+                    'icon' => 'fas fa-user-check',
+                ],
+
+                [
+                    'text' => 'Task Comments',
+                    'url'  => '/task-comments',
+                    'icon' => 'fas fa-comments',
+                ],
+
+                [
+                    'text' => 'Task Attachments',
+                    'url'  => '/task-attachments',
+                    'icon' => 'fas fa-paperclip',
+                ],
+
+                [
+                    'text' => 'Trash Tasks',
+                    'url'  => '/tasks/trash',
+                    'icon' => 'fas fa-trash',
+                ],
+
+            ],
+        ],
+        [
+            'text' => 'Internal Chat System',
+            'icon' => 'fas fa-comments',
+            'can'  => 'admin',
+
+            'submenu' => [
+
+                [
+                    'text' => 'One-to-One Chat',
+                    'url'  => '/messages',
+                    'icon' => 'fas fa-comment',
+                ],
+
+                [
+                    'text' => 'Group Chat',
+                    'url'  => '/groups',
+                    'icon' => 'fas fa-users',
+                ],
+
+                [
+                    'text' => 'Notifications',
+                    'url'  => '/notifications',
+                    'icon' => 'fas fa-bell',
+                ],
+
+            ],
+        ],
+
 
         [
             'text' => 'Chat Monitoring',
             'icon' => 'fas fa-comments',
             'can'  => 'admin',
             'submenu' => [
-                
+
                 // [
                 //     'text'  => 'Dashboard',
                 //     'route' => 'admin.chat.dashboard',
@@ -694,7 +762,11 @@ return [
                     'route' => 'admin.project.monitoring.completed',
                     'icon'  => 'fas fa-check-circle',
                 ],
-
+                [
+                    'text' => 'Trash Projects',
+                    'url'  => '/projects/trash',
+                    'icon' => 'fas fa-trash',
+                ],
             ],
         ],
 
@@ -775,7 +847,18 @@ return [
             'icon' => 'fas fa-database',
             'can'  => 'admin',
         ],
-
+        [
+            'text' => 'Security',
+            'icon' => 'fas fa-shield-alt',
+            'can'  => 'admin',
+            'submenu' => [
+                [
+                    'text' => 'Login History',
+                    'url'  => 'admin/login-history',
+                    'icon' => 'fas fa-user-shield',
+                ],
+            ],
+        ],
     ],
     /*
     |--------------------------------------------------------------------------

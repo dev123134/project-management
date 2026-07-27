@@ -12,111 +12,116 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered">
+        <div class="table-responsive">
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Project</th>
-                    <th>Task</th>
-                    <th>Assigned To</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Due Date</th>
-                    <th>Actions</th>
-                    <h3>My Assigned Tasks</h3>
-                </tr>
-            </thead>
+            <table class="table table-bordered table-hover">
 
-            <tbody>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Project</th>
+                        <th>Task</th>
+                        <th>Assigned To</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-                @forelse($tasks as $task)
+                <tbody>
 
-                <tr>
+                    @forelse($tasks as $task)
 
-                    <td>{{ $task->id }}</td>
+                    <tr>
 
-                    <td>{{ $task->project->title ?? '-' }}</td>
+                        <td>{{ $task->id }}</td>
 
-                    <td>{{ $task->title }}</td>
+                        <td>{{ $task->project->title ?? '-' }}</td>
 
-                    <td>{{ $task->assignee->name ?? '-' }}</td>
+                        <td>{{ $task->title }}</td>
 
-                    <td>{{ $task->priority }}</td>
+                        <td>{{ $task->assignee->name ?? '-' }}</td>
 
-                    <td>
+                        <td>{{ $task->priority }}</td>
 
-                        @if($task->status == 'Pending')
+                        <td>
 
-                        <span class="badge bg-warning">
-                            Pending
-                        </span>
+                            @if($task->status == 'Pending')
 
-                        @elseif($task->status == 'In Progress')
+                            <span class="badge bg-warning">
+                                Pending
+                            </span>
 
-                        <span class="badge bg-primary">
-                            In Progress
-                        </span>
+                            @elseif($task->status == 'In Progress')
 
-                        @elseif($task->status == 'Completed')
+                            <span class="badge bg-primary">
+                                In Progress
+                            </span>
 
-                        <span class="badge bg-success">
-                            Completed
-                        </span>
+                            @elseif($task->status == 'Completed')
 
-                        @endif
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
 
-                    </td>
+                            @endif
 
-                    <td>{{ $task->due_date }}</td>
-                    <td>
+                        </td>
 
-                        @if(auth()->user()->role == 'admin')
+                        <td>{{ $task->due_date }}</td>
 
-                        <a href="{{ route('tasks.edit', $task->id) }}"
-                            class="btn btn-sm btn-primary">
-                            Edit
-                        </a>
+                        <td>
 
-                        <form action="{{ route('tasks.destroy', $task->id) }}"
-                            method="POST"
-                            style="display:inline-block">
+                            @if(auth()->user()->role == 'admin')
 
-                            @csrf
-                            @method('DELETE')
+                            <a href="{{ route('tasks.edit', $task->id) }}"
+                                class="btn btn-sm btn-primary">
+                                Edit
+                            </a>
 
-                            <button type="submit"
-                                class="btn btn-sm btn-danger">
-                                Delete
-                            </button>
+                            <form action="{{ route('tasks.destroy', $task->id) }}"
+                                method="POST"
+                                style="display:inline-block">
 
-                        </form>
+                                @csrf
+                                @method('DELETE')
 
-                        @endif
-<a href="{{ route('tasks.comments', $task->id) }}"
-   class="btn btn-sm btn-info">
+                                <button type="submit"
+                                    class="btn btn-sm btn-danger">
+                                    Delete
+                                </button>
 
-    Comments
+                            </form>
 
-</a>
-                    </td>
-                </tr>
+                            @endif
 
-                @empty
+                            <a href="{{ route('tasks.comments', $task->id) }}"
+                                class="btn btn-sm btn-info">
+                                Comments
+                            </a>
 
-                <tr>
-                    <td colspan="7" class="text-center">
-                        No Tasks Found
-                    </td>
-                </tr>
+                        </td>
 
-                @endforelse
+                    </tr>
 
-            </tbody>
+                    @empty
 
-        </table>
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            No Tasks Found
+                        </td>
+                    </tr>
 
-    </div>
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+</div>
 
 </div>
 

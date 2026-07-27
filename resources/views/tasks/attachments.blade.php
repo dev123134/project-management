@@ -13,8 +13,8 @@
     <div class="card-body">
 
         <form action="{{ route('task.attachments.store') }}"
-              method="POST"
-              enctype="multipart/form-data">
+            method="POST"
+            enctype="multipart/form-data">
 
             @csrf
 
@@ -23,13 +23,13 @@
                 <label>Task</label>
 
                 <select name="task_id"
-                        class="form-control">
+                    class="form-control">
 
                     @foreach($tasks as $task)
 
-                        <option value="{{ $task->id }}">
-                            {{ $task->title }}
-                        </option>
+                    <option value="{{ $task->id }}">
+                        {{ $task->title }}
+                    </option>
 
                     @endforeach
 
@@ -42,9 +42,9 @@
                 <label>Choose File</label>
 
                 <input type="file"
-                       name="file"
-                       class="form-control"
-                       required>
+                    name="file"
+                    class="form-control"
+                    required>
 
             </div>
 
@@ -56,53 +56,52 @@
 
         <hr>
 
-        <table class="table table-bordered">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-hover">
 
-                <tr>
-                    <th>Task</th>
-                    <th>Uploaded By</th>
-                    <th>File</th>
-                </tr>
+                <thead>
 
-            </thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Uploaded By</th>
+                        <th>File</th>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                @foreach($attachments as $attachment)
+                <tbody>
 
-                <tr>
+                    @foreach($attachments as $attachment)
 
-                    <td>
-                        {{ $attachment->task->title }}
-                    </td>
+                    <tr>
 
-                    <td>
-                        {{ $attachment->user->name }}
-                    </td>
+                        <td>{{ $attachment->task->title }}</td>
 
-                    <td>
+                        <td>{{ $attachment->user->name }}</td>
 
-                        <a href="{{ asset('storage/'.$attachment->file_path) }}"
-                           target="_blank">
+                        <td>
 
-                            {{ $attachment->file_name }}
+                            <a href="{{ asset('storage/'.$attachment->file_path) }}"
+                                target="_blank">
 
-                        </a>
+                                {{ $attachment->file_name }}
 
-                    </td>
+                            </a>
 
-                </tr>
+                        </td>
 
-                @endforeach
+                    </tr>
 
-            </tbody>
+                    @endforeach
 
-        </table>
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
-
 </div>
 
 @endsection

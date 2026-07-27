@@ -14,44 +14,43 @@ use App\Http\Controllers\NotificationController;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    if($user->role == 'admin')
-    {
-        $tasks = Task::with(['project','assignee'])
-                    ->latest()
-                    ->get();
-    }
-    elseif($user->role == 'freelancer')
-    {
-        $tasks = Task::with(['project','assignee'])
-                    ->where('assigned_to', $user->id)
-                    ->latest()
-                    ->get();
-    }
-    else
-    {
-        $tasks = Task::with(['project','assignee'])
-                    ->where('assigned_to', $user->id)
-                    ->latest()
-                    ->get();
-    }
+        if ($user->role == 'admin') {
+            $tasks = Task::with(['project', 'assignee'])
+                ->latest()
+                ->get();
+        } elseif ($user->role == 'freelancer') {
+            $tasks = Task::with(['project', 'assignee'])
+                ->where('assigned_to', $user->id)
+                ->latest()
+                ->get();
+        } else {
+            $tasks = Task::with(['project', 'assignee'])
+                ->where('assigned_to', $user->id)
+                ->latest()
+                ->get();
+        }
 
-    return view('tasks.index', compact('tasks'));
-}
+        return view('tasks.index', compact('tasks'));
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $projects = Project::all();
-        $users = User::all();
+
+        $users = User::whereIn('role', ['freelancer', 'employee'])
+            ->get();
 
         return view('tasks.create', compact('projects', 'users'));
     }
@@ -59,39 +58,43 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-public function store(Request $request)
-{
-    $task = Task::create([
-        'project_id'  => $request->project_id,
-        'assigned_by' => Auth::id(),
-        'assigned_to' => $request->assigned_to,
-        'title'       => $request->title,
-        'description' => $request->description,
-        'priority'    => $request->priority,
-        'due_date'    => $request->due_date,
-        'status'      => 'Pending',
-    ]);
+    public function store(Request $request)
+    {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
 
-    $task->load(['project', 'assigner', 'assignee']);
+        $task = Task::create([
+            'project_id'  => $request->project_id,
+            'assigned_by' => Auth::id(),
+            'assigned_to' => $request->assigned_to,
+            'title'       => $request->title,
+            'description' => $request->description,
+            'priority'    => $request->priority,
+            'due_date'    => $request->due_date,
+            'status'      => 'Pending',
+        ]);
 
-    NotificationController::createNotification(
-    $task->assigned_to,
-    'New Task Assigned',
-    'A new task "' . $task->title . '" has been assigned to you.',
-    'task',
-    route('tasks.index'),
-    'fas fa-tasks',
-    'primary'
-);
+        $task->load(['project', 'assigner', 'assignee']);
 
-    Mail::to($task->assignee->email)->send(
-        new TaskAssignedMail($task)
-    );
+        NotificationController::createNotification(
+            $task->assigned_to,
+            'New Task Assigned',
+            'A new task "' . $task->title . '" has been assigned to you.',
+            'task',
+            route('tasks.index'),
+            'fas fa-tasks',
+            'primary'
+        );
 
-    return redirect()
-        ->route('tasks.index')
-        ->with('success', 'Task Created Successfully');
-}
+        Mail::to($task->assignee->email)->send(
+            new TaskAssignedMail($task)
+        );
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Task Created Successfully');
+    }
 
     /**
      * Display the specified resource.
@@ -106,6 +109,9 @@ public function store(Request $request)
      */
     public function edit(Task $task)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
         $projects = Project::all();
         $users = User::all();
 
@@ -121,6 +127,10 @@ public function store(Request $request)
      */
     public function update(Request $request, Task $task)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $task->update([
 
             'project_id' => $request->project_id,
@@ -150,35 +160,36 @@ public function store(Request $request)
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(Task $task)
-{
-    $task->delete();
+    public function destroy(Task $task)
+    {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
 
-    return redirect()
-        ->route('tasks.index')
-        ->with('success', 'Task Moved To Trash Successfully');
-}
+        $task->delete();
+
+        return redirect()
+            ->route('tasks.index')
+            ->with('success', 'Task Moved To Trash Successfully');
+    }
     public function trash()
-{
-    $user = Auth::user();
-
-    if ($user->role == 'admin') {
-
-        $tasks = Task::onlyTrashed()
-                    ->latest()
-                    ->get();
-
-    } else {
+    {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
 
         $tasks = Task::onlyTrashed()
             ->latest()
             ->get();
-    }
 
-    return view('tasks.trash', compact('tasks'));
-}
+        return view('tasks.trash', compact('tasks'));
+    }
     public function restore($id)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         Task::withTrashed()
             ->findOrFail($id)
             ->restore();
@@ -190,7 +201,7 @@ public function store(Request $request)
                 'Task Restored Successfully'
             );
     }
-    
+
     public function assignedTasks()
     {
         $tasks = Task::with(['project', 'assignee'])
@@ -201,12 +212,14 @@ public function store(Request $request)
         return view('tasks.assigned', compact('tasks'));
     }
     public function updateStatus(Request $request, Task $task)
-{
-    $task->update([
-        'status' => $request->status
-    ]);
+    {
+        $task->update([
+            'status' => $request->status
+        ]);
 
-    return back()
-        ->with('success', 'Task Status Updated Successfully');
-}
+        return back()->with(
+            'success',
+            'Task Status Updated Successfully'
+        );
+    }
 }

@@ -16,95 +16,99 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-striped table-hover">
 
-                <tr>
+                <thead>
 
-                    <th>#</th>
+                    <tr>
 
-                    <th>Sender</th>
+                        <th>#</th>
 
-                    <th>Receiver</th>
+                        <th>Sender</th>
 
-                    <th>Message</th>
+                        <th>Receiver</th>
 
-                    <th>File</th>
+                        <th>Message</th>
 
-                    <th>Date</th>
+                        <th>File</th>
 
-                    <th>Action</th>
+                        <th>Date</th>
 
-                </tr>
+                        <th>Action</th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                @forelse($messages as $message)
+                <tbody>
 
-                <tr>
+                    @forelse($messages as $message)
 
-                    <td>{{ $loop->iteration }}</td>
+                    <tr>
 
-                    <td>{{ optional($message->sender)->name ?? 'Deleted User' }}</td>
-                    <td>{{ optional($message->receiver)->name ?? 'Deleted User' }}</td>
+                        <td>{{ $loop->iteration }}</td>
 
-                    <td>{{ $message->message }}</td>
+                        <td>{{ optional($message->sender)->name ?? 'Deleted User' }}</td>
 
-                    <td>
+                        <td>{{ optional($message->receiver)->name ?? 'Deleted User' }}</td>
 
-                        @if($message->file)
+                        <td>{{ $message->message }}</td>
 
-                        <a href="{{ asset('uploads/'.$message->file) }}"
-                            target="_blank">
+                        <td>
 
-                            Download
+                            @if($message->file)
 
-                        </a>
+                            <a href="{{ asset('uploads/'.$message->file) }}"
+                                target="_blank">
 
-                        @else
+                                Download
 
-                        -
+                            </a>
 
-                        @endif
+                            @else
 
-                    </td>
+                            -
 
-                    <td>{{ $message->created_at->format('d M Y h:i A') }}</td>
+                            @endif
 
-                    <td>
+                        </td>
 
-                        <a href="{{ route('admin.chat.view', [$message->sender_id, $message->receiver_id]) }}"
-                            class="btn btn-info btn-sm">
+                        <td>{{ $message->created_at->format('d M Y h:i A') }}</td>
 
-                            <i class="fas fa-eye"></i>
+                        <td>
 
-                        </a>
+                            <a href="{{ route('admin.chat.view', [$message->sender_id, $message->receiver_id]) }}"
+                                class="btn btn-info btn-sm">
 
-                    </td>
+                                <i class="fas fa-eye"></i>
 
-                </tr>
+                            </a>
 
-                @empty
+                        </td>
 
-                <tr>
+                    </tr>
 
-                    <td colspan="7"
-                        class="text-center">
+                    @empty
 
-                        No Chats Found
+                    <tr>
 
-                    </td>
+                        <td colspan="7" class="text-center">
 
-                </tr>
+                            No Chats Found
 
-                @endforelse
+                        </td>
 
-            </tbody>
+                    </tr>
 
-        </table>
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

@@ -17,13 +17,30 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::all();
+        $user = Auth::user();
+
+        if ($user->role == 'admin') {
+
+            $projects = Project::all();
+        } elseif ($user->role == 'client') {
+
+            $projects = Project::where('client_id', $user->id)->get();
+        } else {
+
+            $projects = Project::whereHas('members', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->get();
+        }
 
         return view('projects.index', compact('projects'));
     }
 
     public function create()
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $clients = User::where('role', 'client')
             ->orderBy('name')
             ->get();
@@ -33,6 +50,10 @@ class ProjectController extends Controller
 
     public function edit($id)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $project = Project::findOrFail($id);
 
         $clients = User::where('role', 'client')
@@ -43,6 +64,10 @@ class ProjectController extends Controller
     }
     public function update(Request $request, $id)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $project = Project::findOrFail($id);
         $oldStatus = $project->status;
         $project->update([
@@ -62,27 +87,31 @@ class ProjectController extends Controller
 
         ]);
 
-$project->refresh()->load('client');
+        $project->refresh()->load('client');
 
-if ($oldStatus != $project->status) {
+        if ($oldStatus != $project->status) {
 
-    NotificationController::createNotification(
-    $project->client_id,
-    'Project Status Updated',
-    'Project "' . $project->title . '" status changed to ' . $project->status,
-    'project',
-    route('projects.index'),
-    'fas fa-folder-open',
-    'success'
-);
-    Mail::to($project->client->email)
-        ->send(new ProjectStatusUpdatedMail($project));
-}
+            NotificationController::createNotification(
+                $project->client_id,
+                'Project Status Updated',
+                'Project "' . $project->title . '" status changed to ' . $project->status,
+                'project',
+                route('projects.index'),
+                'fas fa-folder-open',
+                'success'
+            );
+            Mail::to($project->client->email)
+                ->send(new ProjectStatusUpdatedMail($project));
+        }
         return redirect('/admin/project-monitoring')
             ->with('success', 'Project Updated Successfully');
     }
     public function store(Request $request)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         Project::create([
 
             'title'             => $request->title,
@@ -108,6 +137,10 @@ if ($oldStatus != $project->status) {
     }
     public function destroy($id)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $project = Project::findOrFail($id);
 
         $project->delete();
@@ -118,6 +151,10 @@ if ($oldStatus != $project->status) {
 
     public function team($id)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $project = Project::findOrFail($id);
 
         $users = User::whereIn('role', ['employee', 'freelancer'])->get();
@@ -127,6 +164,10 @@ if ($oldStatus != $project->status) {
 
     public function storeTeam(Request $request)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $exists = ProjectMember::where('project_id', $request->project_id)
             ->where('user_id', $request->user_id)
             ->exists();
@@ -169,14 +210,23 @@ if ($oldStatus != $project->status) {
 
     public function restore($id)
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         Project::withTrashed()
             ->findOrFail($id)
             ->restore();
 
-        return redirect('/projects');
+        return redirect('/admin/project-monitoring')
+            ->with('success', 'Project Restored Successfully');
     }
     public function trash()
     {
+        if (Auth::user()->role != 'admin') {
+            abort(403);
+        }
+
         $projects = Project::onlyTrashed()->get();
 
         return view('projects.trash', compact('projects'));

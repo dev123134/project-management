@@ -43,73 +43,80 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-hover">
 
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Deleted At</th>
-                    <th>Actions</th>
-                </tr>
+                <thead>
 
-            </thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Deleted At</th>
+                        <th>Actions</th>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                @foreach($users as $user)
+                <tbody>
 
-                <tr>
+                    @foreach($users as $user)
 
-                    <td>{{ $user->id }}</td>
+                    <tr>
 
-                    <td>{{ $user->name }}</td>
+                        <td>{{ $user->id }}</td>
 
-                    <td>{{ $user->email }}</td>
+                        <td>{{ $user->name }}</td>
 
-                    <td>{{ ucfirst($user->role) }}</td>
-                    <td>{{ $user->deleted_at }}</td>
-                    <td>
+                        <td>{{ $user->email }}</td>
 
+                        <td>{{ ucfirst($user->role) }}</td>
 
-                        <form action="{{ route('admin.users.restore', $user->id) }}"
-                            method="POST"
-                            style="display:inline;">
-                            @csrf
-                            @method('PATCH')
+                        <td>{{ $user->deleted_at }}</td>
 
-                            <button class="btn btn-success btn-sm">
-                                <i class="fas fa-undo"></i>
-                            </button>
-                        </form>
-                       
-                        <form action="{{ route('admin.users.forceDelete', $user->id) }}"
-                            method="POST"
-                            style="display:inline;">
+                        <td>
 
-                            @csrf
-                            @method('DELETE')
+                            <form action="{{ route('admin.users.restore', $user->id) }}"
+                                method="POST"
+                                style="display:inline;">
+                                @csrf
+                                @method('PATCH')
 
-                            <button type="submit"
-                                class="btn btn-danger btn-sm"
-                                onclick="return confirm('This action cannot be undone. Permanently delete this user?')">
+                                <button class="btn btn-success btn-sm">
+                                    <i class="fas fa-undo"></i>
+                                </button>
+                            </form>
 
-                                <i class="fas fa-trash"></i>
+                            <form action="{{ route('admin.users.forceDelete', $user->id) }}"
+                                method="POST"
+                                style="display:inline;">
 
-                            </button>
+                                @csrf
+                                @method('DELETE')
 
-                        </form>
-                    </td>
-                </tr>
+                                <button type="submit"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('This action cannot be undone. Permanently delete this user?')">
 
-                @endforeach
+                                    <i class="fas fa-trash"></i>
 
-            </tbody>
+                                </button>
 
-        </table>
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

@@ -12,113 +12,120 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered">
+        <div class="table-responsive">
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Project</th>
-                    <th>Task</th>
-                    <th>Assigned To</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Due Date</th>
-                    <th>Actions</th>
-                    <h3>My Assigned Tasks</h3>
-                </tr>
-            </thead>
+            <table class="table table-bordered table-hover">
 
-            <tbody>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Project</th>
+                        <th>Task</th>
+                        <th>Assigned To</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-                @forelse($tasks as $task)
+                <tbody>
 
-                <tr>
+                    @forelse($tasks as $task)
 
-                    <td>{{ $task->id }}</td>
+                    <tr>
 
-                    <td>{{ $task->project->title ?? '-' }}</td>
+                        <td>{{ $task->id }}</td>
 
-                    <td>{{ $task->title }}</td>
+                        <td>{{ $task->project->title ?? '-' }}</td>
 
-                    <td>{{ $task->assignee->name ?? '-' }}</td>
+                        <td>{{ $task->title }}</td>
 
-                    <td>{{ $task->priority }}</td>
+                        <td>{{ $task->assignee->name ?? '-' }}</td>
 
-                    <td>
+                        <td>{{ $task->priority }}</td>
 
-                        <form action="{{ route('tasks.updateStatus', $task->id) }}"
-                            method="POST">
+                        <td>
 
-                            @csrf
-                            @method('PUT')
+                            <form action="{{ route('tasks.updateStatus', $task->id) }}"
+                                method="POST">
 
-                            <select name="status"
-                                class="form-control form-control-sm"
-                                onchange="this.form.submit()">
+                                @csrf
+                                @method('PUT')
 
-                                <option value="Pending"
-                                    {{ $task->status == 'Pending' ? 'selected' : '' }}>
-                                    Pending
-                                </option>
+                                <select name="status"
+                                    class="form-control form-control-sm"
+                                    onchange="this.form.submit()">
 
-                                <option value="In Progress"
-                                    {{ $task->status == 'In Progress' ? 'selected' : '' }}>
-                                    In Progress
-                                </option>
+                                    <option value="Pending"
+                                        {{ $task->status == 'Pending' ? 'selected' : '' }}>
+                                        Pending
+                                    </option>
 
-                                <option value="Completed"
-                                    {{ $task->status == 'Completed' ? 'selected' : '' }}>
-                                    Completed
-                                </option>
+                                    <option value="In Progress"
+                                        {{ $task->status == 'In Progress' ? 'selected' : '' }}>
+                                        In Progress
+                                    </option>
 
-                            </select>
+                                    <option value="Completed"
+                                        {{ $task->status == 'Completed' ? 'selected' : '' }}>
+                                        Completed
+                                    </option>
 
-                        </form>
+                                </select>
 
-                    </td>
+                            </form>
 
-                    <td>{{ $task->due_date }}</td>
-                    <td>
-                        <a href="{{ route('tasks.comments', $task->id) }}"
-                            class="btn btn-sm btn-info">
-                            Comments
-                        </a>
-                        <a href="{{ route('tasks.edit', $task->id) }}"
-                            class="btn btn-sm btn-primary">
-                            Edit
-                        </a>
-                        <form action="{{ route('tasks.destroy', $task->id) }}"
-                            method="POST"
-                            style="display:inline-block">
+                        </td>
 
-                            @csrf
-                            @method('DELETE')
+                        <td>{{ $task->due_date }}</td>
 
-                            <button type="submit"
-                                class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure?')">
+                        <td>
 
-                                Delete
+                            <a href="{{ route('tasks.comments', $task->id) }}"
+                                class="btn btn-sm btn-info">
+                                Comments
+                            </a>
 
-                            </button>
+                            <a href="{{ route('tasks.edit', $task->id) }}"
+                                class="btn btn-sm btn-primary">
+                                Edit
+                            </a>
 
-                        </form>
-                    </td>
-                </tr>
+                            <form action="{{ route('tasks.destroy', $task->id) }}"
+                                method="POST"
+                                style="display:inline-block">
 
-                @empty
+                                @csrf
+                                @method('DELETE')
 
-                <tr>
-                    <td colspan="7" class="text-center">
-                        No Tasks Found
-                    </td>
-                </tr>
+                                <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure?')">
+                                    Delete
+                                </button>
 
-                @endforelse
+                            </form>
 
-            </tbody>
+                        </td>
 
-        </table>
+                    </tr>
+
+                    @empty
+
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            No Tasks Found
+                        </td>
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

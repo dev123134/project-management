@@ -10,29 +10,67 @@
 
 <div class="row">
 
-    <div class="col-lg-3 col-6">
+    <!-- Total Tasks -->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
         <div class="small-box bg-info">
             <div class="inner">
-                <h3>10</h3>
+                <h3>{{ $totalTasks }}</h3>
                 <p>Total Tasks</p>
             </div>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-success">
-            <div class="inner">
-                <h3>5</h3>
-                <p>Completed Tasks</p>
+            <div class="icon">
+                <i class="fas fa-tasks"></i>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-3 col-6">
+    <!-- Completed Tasks -->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>{{ $completedTasks }}</h3>
+                <p>Completed Tasks</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Tasks -->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
         <div class="small-box bg-warning">
             <div class="inner">
-                <h3>3</h3>
+                <h3>{{ $pendingTasks }}</h3>
                 <p>Pending Tasks</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assigned Projects -->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>{{ $assignedProjects }}</h3>
+                <p>Assigned Projects</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today's Updates -->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{ $todayUpdates }}</h3>
+                <p>Today's Updates</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calendar-check"></i>
             </div>
         </div>
     </div>

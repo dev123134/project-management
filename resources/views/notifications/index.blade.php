@@ -36,7 +36,7 @@
 
                 @csrf
 
-                <button class="btn btn-primary btn-sm">
+                <button class="btn btn-primary btn-sm ">
 
                     <i class="fas fa-check-double"></i>
 

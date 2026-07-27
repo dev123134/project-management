@@ -43,105 +43,102 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-hover">
 
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                </tr>
+                <thead>
 
-            </thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                @foreach($users as $user)
+                <tbody>
 
-                <tr>
+                    @foreach($users as $user)
 
-                    <td>{{ $user->id }}</td>
+                    <tr>
 
-                    <td>{{ $user->name }}</td>
+                        <td>{{ $user->id }}</td>
 
-                    <td>{{ $user->email }}</td>
+                        <td>{{ $user->name }}</td>
 
-                    <td>{{ ucfirst($user->role) }}</td>
-                    <td>
+                        <td>{{ $user->email }}</td>
 
-                        <a href="{{ route('admin.users.edit', $user->id) }}"
-                            class="btn btn-sm btn-warning">
+                        <td>{{ ucfirst($user->role) }}</td>
 
-                            <i class="fas fa-edit"></i>
+                        <td>
 
-                        </a>
-@if($user->status == 'active')
+                            <a href="{{ route('admin.users.edit', $user->id) }}"
+                                class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
 
-    <form action="{{ route('admin.users.block', $user->id) }}"
-        method="POST"
-        style="display:inline;">
+                            @if($user->status == 'active')
 
-        @csrf
-        @method('PATCH')
+                            <form action="{{ route('admin.users.block', $user->id) }}"
+                                method="POST"
+                                style="display:inline;">
+                                @csrf
+                                @method('PATCH')
 
-        <button type="submit"
-            class="btn btn-sm btn-dark"
-            onclick="return confirm('Are you sure you want to block this user?')">
+                                <button type="submit"
+                                    class="btn btn-sm btn-dark"
+                                    onclick="return confirm('Are you sure you want to block this user?')">
+                                    <i class="fas fa-ban"></i>
+                                </button>
 
-            <i class="fas fa-ban"></i>
+                            </form>
 
-        </button>
+                            @else
 
-    </form>
+                            <form action="{{ route('admin.users.unblock', $user->id) }}"
+                                method="POST"
+                                style="display:inline;">
+                                @csrf
+                                @method('PATCH')
 
-@else
+                                <button type="submit"
+                                    class="btn btn-sm btn-success"
+                                    onclick="return confirm('Are you sure you want to unblock this user?')">
+                                    <i class="fas fa-check"></i>
+                                </button>
 
-    <form action="{{ route('admin.users.unblock', $user->id) }}"
-        method="POST"
-        style="display:inline;">
+                            </form>
 
-        @csrf
-        @method('PATCH')
+                            @endif
 
-        <button type="submit"
-            class="btn btn-sm btn-success"
-            onclick="return confirm('Are you sure you want to unblock this user?')">
+                            <form action="{{ route('admin.users.destroy', $user->id) }}"
+                                method="POST"
+                                style="display:inline;">
+                                @csrf
+                                @method('DELETE')
 
-            <i class="fas fa-check"></i>
+                                <button type="submit"
+                                    class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure you want to move this user to trash?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
 
-        </button>
+                            </form>
 
-    </form>
+                        </td>
 
-@endif
-                        <form action="{{ route('admin.users.destroy', $user->id) }}"
-                            method="POST"
-                            style="display:inline;">
+                    </tr>
 
-                            @csrf
-                            @method('DELETE')
+                    @endforeach
 
-                            <button type="submit"
-                                class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure you want to move this user to trash?')">
+                </tbody>
 
-                                <i class="fas fa-trash"></i>
+            </table>
 
-                            </button>
-
-                        </form>
-
-                    </td>
-                </tr>
-
-                @endforeach
-
-            </tbody>
-
-        </table>
+        </div>
 
     </div>
 

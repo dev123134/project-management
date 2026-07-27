@@ -14,50 +14,57 @@
     </a>
 </div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Budget</th>
-            <th>Status</th>
-            <th>Deadline</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+<div class="table-responsive">
 
-    <tbody>
+    <table class="table table-bordered table-hover">
 
-        @foreach($projects as $project)
+        <thead>
 
-        <tr>
-            <td>{{ $project->id }}</td>
-            <td>{{ $project->title }}</td>
-            <td>{{ $project->budget }}</td>
-            <td>{{ $project->status }}</td>
-            <td>{{ $project->deadline }}</td>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Budget</th>
+                <th>Status</th>
+                <th>Deadline</th>
+                <th>Action</th>
+            </tr>
 
-            <td>
-                <a href="/projects/edit/{{ $project->id }}" class="btn btn-warning btn-sm">
-                    Edit
-                </a>
+        </thead>
 
-                <a href="/projects/delete/{{ $project->id }}"
-                    class="btn btn-danger btn-sm"
-                    onclick="return confirm('Are you sure?')">
-                    Delete
-                </a>
-                <a href="/projects/team/{{ $project->id }}"
-                    class="btn btn-info btn-sm">
-                    Team
-                </a>
-            </td>
-        </tr>
+        <tbody>
 
-        @endforeach
+            @foreach($projects as $project)
 
-    </tbody>
+            <tr>
 
-</table>
+                <td>{{ $project->id }}</td>
+                <td>{{ $project->title }}</td>
+                <td>{{ $project->budget }}</td>
+                <td>{{ $project->status }}</td>
+                <td>{{ $project->deadline }}</td>
 
+                <td>
+
+                    <a href="/projects/edit/{{ $project->id }}"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="/projects/delete/{{ $project->id }}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure?')">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
 @stop

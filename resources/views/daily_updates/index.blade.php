@@ -8,23 +8,40 @@
     Add Daily Update
 </a>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Project</th>
-            <th>Today's Work</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($updates as $update)
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+
             <tr>
-                <td>{{ $update->project_id }}</td>
-                <td>{{ $update->work_update }}</td>
-                <td>{{ $update->work_date }}</td>
+                <th>Project</th>
+                <th>Today's Work</th>
+                <th>Date</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+
+        </thead>
+
+        <tbody>
+
+            @foreach($updates as $update)
+
+            <tr>
+
+                <td>{{ $update->project_id }}</td>
+
+                <td>{{ $update->work_update }}</td>
+
+                <td>{{ $update->work_date }}</td>
+
+            </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
 
 @stop

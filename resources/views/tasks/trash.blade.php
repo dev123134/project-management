@@ -13,79 +13,73 @@
     <div class="card-body">
 
         @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
         @endif
 
-        <table class="table table-bordered">
+        <div class="table-responsive">
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Project</th>
-                    <th>Task Title</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Deleted At</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <table class="table table-bordered table-hover">
 
-            <tbody>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Project</th>
+                        <th>Task Title</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Deleted At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-                @forelse($tasks as $task)
+                <tbody>
 
-                <tr>
+                    @forelse($tasks as $task)
 
-                    <td>{{ $task->id }}</td>
+                    <tr>
 
-                    <td>
-                        {{ $task->project->title ?? '-' }}
-                    </td>
+                        <td>{{ $task->id }}</td>
 
-                    <td>
-                        {{ $task->title }}
-                    </td>
+                        <td>{{ $task->project->title ?? '-' }}</td>
 
-                    <td>
-                        {{ $task->priority }}
-                    </td>
+                        <td>{{ $task->title }}</td>
 
-                    <td>
-                        {{ $task->status }}
-                    </td>
+                        <td>{{ $task->priority }}</td>
 
-                    <td>
-                        {{ $task->deleted_at }}
-                    </td>
+                        <td>{{ $task->status }}</td>
 
-                    <td>
+                        <td>{{ $task->deleted_at }}</td>
 
-                        <a href="{{ route('tasks.restore',$task->id) }}"
-                           class="btn btn-success btn-sm">
+                        <td>
 
-                            Restore
+                            <a href="{{ route('tasks.restore',$task->id) }}"
+                                class="btn btn-success btn-sm">
 
-                        </a>
+                                Restore
 
-                    </td>
+                            </a>
 
-                </tr>
+                        </td>
 
-                @empty
+                    </tr>
 
-                <tr>
-                    <td colspan="7" class="text-center">
-                        No Deleted Tasks Found
-                    </td>
-                </tr>
+                    @empty
 
-                @endforelse
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            No Deleted Tasks Found
+                        </td>
+                    </tr>
 
-            </tbody>
+                    @endforelse
 
-        </table>
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

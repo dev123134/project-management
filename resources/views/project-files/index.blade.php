@@ -27,97 +27,105 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+        <div class="table-responsive">
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Project</th>
-                    <th>File Name</th>
-                    <th>Type</th>
-                    <th>Size</th>
-                    <th>Version</th>
-                    <th>Uploaded By</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <table class="table table-bordered table-striped table-hover">
 
-            <tbody>
+                <thead>
 
-                @forelse($files as $file)
+                    <tr>
+                        <th>ID</th>
+                        <th>Project</th>
+                        <th>File Name</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Version</th>
+                        <th>Uploaded By</th>
+                        <th>Action</th>
+                    </tr>
 
-                <tr>
+                </thead>
 
-                    <td>{{ $file->id }}</td>
+                <tbody>
 
-                    <td>{{ $file->project->title ?? 'N/A' }}</td>
+                    @forelse($files as $file)
 
-                    <td>{{ $file->file_name }}</td>
+                    <tr>
 
-                    <td>{{ $file->file_type }}</td>
+                        <td>{{ $file->id }}</td>
 
-                    <td>
-                        {{ round($file->file_size / 1024, 2) }} KB
-                    </td>
+                        <td>{{ $file->project->title ?? 'N/A' }}</td>
 
-                    <td>
-                        V{{ $file->version }}
-                    </td>
+                        <td>{{ $file->file_name }}</td>
 
-                    <td>
-                        {{ $file->uploader->name ?? 'N/A' }}
-                    </td>
+                        <td>{{ $file->file_type }}</td>
 
-                    <td>
+                        <td>
+                            {{ round($file->file_size / 1024, 2) }} KB
+                        </td>
 
-                        <a href="{{ route('project-files.preview',$file->id) }}"
-                            class="btn btn-info btn-sm">
-                            Preview
-                        </a>
+                        <td>
+                            V{{ $file->version }}
+                        </td>
 
-                        <a href="{{ route('project-files.download',$file->id) }}"
-                            class="btn btn-success btn-sm">
-                            Download
-                        </a>
-                        <a href="{{ route('project-files.version.form', $file->id) }}"
-                            class="btn btn-warning btn-sm">
-                            New Version
-                        </a>
-                        <form action="{{ route('project-files.destroy',$file->id) }}"
-                            method="POST"
-                            style="display:inline;">
+                        <td>
+                            {{ $file->uploader->name ?? 'N/A' }}
+                        </td>
 
-                            @csrf
-                            @method('DELETE')
+                        <td>
 
-                            <button class="btn btn-danger btn-sm"
-                                onclick="return confirm('Delete File?')">
+                            <a href="{{ route('project-files.preview',$file->id) }}"
+                                class="btn btn-info btn-sm">
+                                Preview
+                            </a>
 
-                                Delete
+                            <a href="{{ route('project-files.download',$file->id) }}"
+                                class="btn btn-success btn-sm">
+                                Download
+                            </a>
 
-                            </button>
+                            <a href="{{ route('project-files.version.form',$file->id) }}"
+                                class="btn btn-warning btn-sm">
+                                New Version
+                            </a>
 
-                        </form>
+                            <form action="{{ route('project-files.destroy',$file->id) }}"
+                                method="POST"
+                                style="display:inline;">
 
-                    </td>
+                                @csrf
+                                @method('DELETE')
 
-                </tr>
+                                <button class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Delete File?')">
 
-                @empty
+                                    Delete
 
-                <tr>
+                                </button>
 
-                    <td colspan="8" class="text-center">
-                        No Files Found
-                    </td>
+                            </form>
 
-                </tr>
+                        </td>
 
-                @endforelse
+                    </tr>
 
-            </tbody>
+                    @empty
 
-        </table>
+                    <tr>
+
+                        <td colspan="8" class="text-center">
+                            No Files Found
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

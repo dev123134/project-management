@@ -8,40 +8,45 @@
 
 @section('content')
 
-<table class="table table-bordered">
+<div class="table-responsive">
 
-    <thead>
-        <tr>
-            <th>Project</th>
-            <th>Start Date</th>
-            <th>Deadline</th>
-            <th>Days Remaining</th>
-        </tr>
-    </thead>
+    <table class="table table-bordered table-hover">
 
-    <tbody>
+        <thead>
 
-    @foreach($projects as $project)
+            <tr>
+                <th>Project</th>
+                <th>Start Date</th>
+                <th>Deadline</th>
+                <th>Days Remaining</th>
+            </tr>
 
-    <tr>
+        </thead>
 
-        <td>{{ $project->title }}</td>
+        <tbody>
 
-        <td>{{ $project->start_date }}</td>
+            @foreach($projects as $project)
 
-        <td>{{ $project->deadline }}</td>
+            <tr>
 
-        <td>
-            {{ (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($project->deadline), false) }}
-Days
-        </td>
+                <td>{{ $project->title }}</td>
 
-    </tr>
+                <td>{{ $project->start_date }}</td>
 
-    @endforeach
+                <td>{{ $project->deadline }}</td>
 
-    </tbody>
+                <td>
+                    {{ (int) \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($project->deadline), false) }}
+                    Days
+                </td>
 
-</table>
+            </tr>
 
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
 @stop

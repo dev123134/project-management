@@ -14,33 +14,43 @@
 
         @forelse($comments as $comment)
 
-            <div class="card mb-3">
+        <div class="card mb-3">
 
-                <div class="card-body">
+            <div class="card-body">
 
-                    <h5>
-                        {{ $comment->task->title }}
-                    </h5>
+                <h5 class="mb-2">
+                    <span class="text-muted">
+                        Task Name :
+                    </span>
 
                     <strong>
-                        {{ $comment->user->name }}
+                        {{ $comment->task->title }}
                     </strong>
+                </h5>
 
-                    <small class="text-muted">
-                        {{ $comment->created_at->diffForHumans() }}
-                    </small>
+                <strong>
+                    {{ $comment->user->name }}
+                </strong>
 
-                    <p class="mt-2">
-                        {{ $comment->comment }}
-                    </p>
+                <span class="badge badge-primary ml-2">
+                    {{ ucfirst($comment->user->role) }}
+                </span>
 
-                </div>
+                <small class="text-muted">
+                    {{ $comment->created_at->diffForHumans() }}
+                </small>
+
+                <p class="mt-2">
+                    {{ $comment->comment }}
+                </p>
 
             </div>
 
+        </div>
+
         @empty
 
-            <p>No comments found.</p>
+        <p>No comments found.</p>
 
         @endforelse
 

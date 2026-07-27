@@ -16,115 +16,119 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-striped table-hover">
 
-            <tr>
+                <thead>
 
-                <th>Sr No.</th>
-                <th>Project</th>
-                <th>Status</th>
-                <th>Progress</th>
-                <th>Deadline</th>
-                <th>Budget</th>
-                <th>Action</th>
+                    <tr>
 
-            </tr>
+                        <th>Sr No.</th>
+                        <th>Project</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Deadline</th>
+                        <th>Budget</th>
+                        <th>Action</th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-            @foreach($projects as $project)
+                <tbody>
 
-                @php
+                    @foreach($projects as $project)
+
+                    @php
 
                     $total = \App\Models\Milestone::where('project_id',$project->id)->count();
 
                     $completed = \App\Models\Milestone::where('project_id',$project->id)
-                                    ->where('status','Completed')
-                                    ->count();
+                    ->where('status','Completed')
+                    ->count();
 
-                    $progress = $total>0 ? round(($completed/$total)*100) : 0;
+                    $progress = $total > 0 ? round(($completed/$total)*100) : 0;
 
-                @endphp
+                    @endphp
 
-                <tr>
+                    <tr>
 
-                    <td>{{ $loop->iteration }}</td>
+                        <td>{{ $loop->iteration }}</td>
 
-                    <td>{{ $project->title }}</td>
+                        <td>{{ $project->title }}</td>
 
-                    <td>
+                        <td>
 
-                        @if($project->status=='Completed')
+                            @if($project->status == 'Completed')
 
                             <span class="badge bg-success">
                                 Completed
                             </span>
 
-                        @elseif($project->status=='In Progress')
+                            @elseif($project->status == 'In Progress')
 
                             <span class="badge bg-warning">
                                 In Progress
                             </span>
 
-                        @else
+                            @else
 
                             <span class="badge bg-danger">
                                 Pending
                             </span>
 
-                        @endif
+                            @endif
 
-                    </td>
+                        </td>
 
-                    <td width="220">
+                        <td width="220">
 
-                        <div class="progress">
+                            <div class="progress">
 
-                            <div class="progress-bar bg-success"
-                                 style="width: {{ $progress }}%;">
+                                <div class="progress-bar bg-success"
+                                    style="width: {{ $progress }}%;">
 
-                                {{ $progress }}%
+                                    {{ $progress }}%
+
+                                </div>
 
                             </div>
 
-                        </div>
+                        </td>
 
-                    </td>
+                        <td>
 
-                    <td>
+                            {{ \Carbon\Carbon::parse($project->deadline)->format('d M Y') }}
 
-                        {{ \Carbon\Carbon::parse($project->deadline)->format('d M Y') }}
+                        </td>
 
-                    </td>
+                        <td>
 
-                    <td>
+                            ₹ {{ number_format($project->budget) }}
 
-                        ₹ {{ number_format($project->budget) }}
+                        </td>
 
-                    </td>
+                        <td>
 
-                    <td>
+                            <a href="{{ route('admin.project.monitoring.show',$project->id) }}"
+                                class="btn btn-info btn-sm">
 
-                        <a href="{{ route('admin.project.monitoring.show',$project->id) }}"
-                           class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i>
 
-                            <i class="fas fa-eye"></i>
+                            </a>
 
-                        </a>
+                        </td>
 
-                    </td>
+                    </tr>
 
-                </tr>
+                    @endforeach
 
-            @endforeach
+                </tbody>
 
-            </tbody>
+            </table>
 
-        </table>
+        </div>
 
     </div>
 

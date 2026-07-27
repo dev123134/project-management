@@ -16,67 +16,73 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-striped table-hover">
 
-                <tr>
+                <thead>
 
-                    <th>#</th>
-                    <th>Group Name</th>
-                    <th>Total Members</th>
-                    <th>Total Messages</th>
-                    <th>Created Date</th>
-                    <th>Action</th>
+                    <tr>
 
-                </tr>
+                        <th>#</th>
+                        <th>Group Name</th>
+                        <th>Total Members</th>
+                        <th>Total Messages</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-                @forelse($groups as $group)
+                <tbody>
 
-                <tr>
+                    @forelse($groups as $group)
 
-                    <td>{{ $loop->iteration }}</td>
+                    <tr>
 
-                    <td>{{ $group->name }}</td>
+                        <td>{{ $loop->iteration }}</td>
 
-                    <td>{{ $group->members_count }}</td>
+                        <td>{{ $group->name }}</td>
 
-                    <td>{{ $group->messages_count }}</td>
+                        <td>{{ $group->members_count }}</td>
 
-                    <td>{{ $group->created_at->format('d M Y') }}</td>
+                        <td>{{ $group->messages_count }}</td>
 
-                    <td>
+                        <td>{{ $group->created_at->format('d M Y') }}</td>
 
-                        <a href="{{ route('admin.chat.group.view', $group->id) }}"
-                            class="btn btn-info btn-sm">
-                            <i class="fas fa-eye"></i>
-                        </a>
+                        <td>
 
-                    </td>
+                            <a href="{{ route('admin.chat.group.view', $group->id) }}"
+                                class="btn btn-info btn-sm">
 
-                </tr>
+                                <i class="fas fa-eye"></i>
 
-                @empty
+                            </a>
 
-                <tr>
+                        </td>
 
-                    <td colspan="6" class="text-center">
+                    </tr>
 
-                        No Groups Found
+                    @empty
 
-                    </td>
+                    <tr>
 
-                </tr>
+                        <td colspan="6" class="text-center">
 
-                @endforelse
+                            No Groups Found
 
-            </tbody>
+                        </td>
 
-        </table>
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 

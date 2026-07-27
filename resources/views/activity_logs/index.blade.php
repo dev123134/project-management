@@ -8,32 +8,43 @@
 
 @section('content')
 
-<table class="table table-bordered">
+<div class="table-responsive">
 
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>User ID</th>
-            <th>Action</th>
-            <th>Date</th>
-        </tr>
-    </thead>
+    <table class="table table-bordered table-hover">
 
-    <tbody>
+        <thead>
 
-    @foreach($logs as $log)
+            <tr>
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Action</th>
+                <th>Date</th>
+            </tr>
 
-        <tr>
-            <td>{{ $log->id }}</td>
-            <td>{{ $log->user_id }}</td>
-            <td>{{ $log->action }}</td>
-            <td>{{ $log->created_at->format('d-m-Y') }}</td>
-        </tr>
+        </thead>
 
-    @endforeach
+        <tbody>
 
-    </tbody>
+            @foreach($logs as $log)
 
-</table>
+            <tr>
+
+                <td>{{ $log->id }}</td>
+
+                <td>{{ $log->user_id }}</td>
+
+                <td>{{ $log->action }}</td>
+
+                <td>{{ $log->created_at->format('d-m-Y') }}</td>
+
+            </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
 
 @stop

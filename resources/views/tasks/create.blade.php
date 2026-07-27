@@ -37,15 +37,17 @@
 
             <div class="mb-3">
                 <label>Assign To</label>
-                <select name="assigned_to" class="form-control">
+               <select name="assigned_to" class="form-control">
 
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}">
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
+    @foreach($users as $user)
 
-                </select>
+      <option value="{{ $user->id }}">
+    {{ $user->name }} ({{ ucfirst($user->role) }})
+</option>
+
+    @endforeach
+
+</select>
             </div>
 
             <div class="mb-3">

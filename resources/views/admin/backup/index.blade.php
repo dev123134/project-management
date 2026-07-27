@@ -14,38 +14,48 @@
                 <h1>Backup & Restore</h1>
             </div>
 
-            <div class="col-sm-6 text-right">
+            <div class="col-sm-6">
 
-                <form action="{{ route('admin.backup.create') }}"
-                    method="POST"
-                    style="display:inline;">
+                <div class="d-flex justify-content-end align-items-center flex-wrap">
 
-                    @csrf
+                    <form action="{{ route('admin.backup.create') }}"
+                        method="POST"
+                        class="mr-2 mb-0">
 
-                    <button type="submit" class="btn btn-primary">
+                        @csrf
 
-                        <i class="fas fa-database"></i>
+                        <button type="submit" class="btn btn-primary">
 
-                        Create Backup
+                            <i class="fas fa-database"></i> Create Backup
 
-                    </button>
+                        </button>
 
-                </form>
-                <form action="{{ route('admin.backup.restore') }}"
-                    method="POST"
-                    enctype="multipart/form-data">
+                    </form>
 
-                    @csrf
+                    <form action="{{ route('admin.backup.restore') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        class="d-flex align-items-center">
 
-                    <input type="file" name="backup_file" required>
+                        @csrf
 
-                    <button type="submit" class="btn btn-warning">
-                        Restore
-                    </button>
+                        <input type="file"
+                            name="backup_file"
+                            class="mr-2"
+                            required>
 
-                </form>
+                        <button type="submit"
+                            class="btn btn-warning">
+
+                            Restore
+
+                        </button>
+
+                    </form>
+
+                </div>
+
             </div>
-
         </div>
 
     </div>
@@ -90,83 +100,87 @@
 
             <div class="card-body">
 
-                <table class="table table-bordered table-striped">
+                <div class="table-responsive">
 
-                    <thead>
+                    <table class="table table-bordered table-striped table-hover">
 
-                        <tr>
+                        <thead>
 
-                            <th>#</th>
-                            <th>Backup File</th>
-                            <th>Size</th>
-                            <th>Date</th>
-                            <th width="180">Action</th>
+                            <tr>
 
-                        </tr>
+                                <th>#</th>
+                                <th>Backup File</th>
+                                <th>Size</th>
+                                <th>Date</th>
+                                <th width="180">Action</th>
 
-                    </thead>
+                            </tr>
 
-                    <tbody>
+                        </thead>
 
-                        @forelse($files as $file)
+                        <tbody>
 
-                        <tr>
+                            @forelse($files as $file)
 
-                            <td>{{ $loop->iteration }}</td>
+                            <tr>
 
-                            <td>{{ $file->getFilename() }}</td>
+                                <td>{{ $loop->iteration }}</td>
 
-                            <td>{{ number_format($file->getSize()/1024,2) }} KB</td>
+                                <td>{{ $file->getFilename() }}</td>
 
-                            <td>{{ date('d-m-Y h:i A',$file->getCTime()) }}</td>
+                                <td>{{ number_format($file->getSize()/1024,2) }} KB</td>
 
-                            <td>
+                                <td>{{ date('d-m-Y h:i A',$file->getCTime()) }}</td>
 
-                                <a href="{{ route('admin.backup.download',$file->getFilename()) }}"
-                                    class="btn btn-success btn-sm">
+                                <td>
 
-                                    <i class="fas fa-download"></i>
+                                    <a href="{{ route('admin.backup.download',$file->getFilename()) }}"
+                                        class="btn btn-success btn-sm">
 
-                                </a>
+                                        <i class="fas fa-download"></i>
 
-                                <form action="{{ route('admin.backup.delete',$file->getFilename()) }}"
-                                    method="POST"
-                                    style="display:inline;">
+                                    </a>
 
-                                    @csrf
-                                    @method('DELETE')
+                                    <form action="{{ route('admin.backup.delete',$file->getFilename()) }}"
+                                        method="POST"
+                                        style="display:inline;">
 
-                                    <button
-                                        onclick="return confirm('Delete this backup?')"
-                                        class="btn btn-danger btn-sm">
+                                        @csrf
+                                        @method('DELETE')
 
-                                        <i class="fas fa-trash"></i>
+                                        <button
+                                            onclick="return confirm('Delete this backup?')"
+                                            class="btn btn-danger btn-sm">
 
-                                    </button>
+                                            <i class="fas fa-trash"></i>
 
-                                </form>
+                                        </button>
 
-                            </td>
+                                    </form>
 
-                        </tr>
+                                </td>
 
-                        @empty
+                            </tr>
 
-                        <tr>
+                            @empty
 
-                            <td colspan="5" class="text-center">
+                            <tr>
 
-                                No Backup Files Available.
+                                <td colspan="5" class="text-center">
 
-                            </td>
+                                    No Backup Files Available.
 
-                        </tr>
+                                </td>
 
-                        @endforelse
+                            </tr>
 
-                    </tbody>
+                            @endforelse
 
-                </table>
+                        </tbody>
+
+                    </table>
+
+                </div>
 
             </div>
 

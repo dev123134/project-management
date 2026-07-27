@@ -30,6 +30,12 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'receiver_id' => 'required|exists:users,id',
+            'message' => 'nullable|string',
+            'file' => 'nullable|file|max:2048',
+        ]);
+
         $fileName = null;
 
         if ($request->hasFile('file')) {
@@ -39,25 +45,28 @@ class MessageController extends Controller
             $request->file('file')
                 ->move(public_path('uploads'), $fileName);
         }
-       Notification::create([
+        if ($request->receiver_id == Auth::id()) {
+    abort(403);
+}
+        Notification::create([
 
-    'user_id' => $request->receiver_id,
+            'user_id' => $request->receiver_id,
 
-    'title' => 'New Message',
+            'title' => 'New Message',
 
-    'message' => Auth::user()->name . ' sent you a new message.',
+            'message' => Auth::user()->name . ' sent you a new message.',
 
-    'type' => 'chat',
+            'type' => 'chat',
 
-    'icon' => 'fas fa-comments',
+            'icon' => 'fas fa-comments',
 
-    'color' => 'info',
+            'color' => 'info',
 
-    'url' => '/messages',
+            'url' => '/messages',
 
-    'is_read' => false,
+            'is_read' => false,
 
-]);
+        ]);
         Message::create([
             'sender_id' => Auth::id(),
             'receiver_id' => $request->receiver_id,
@@ -72,7 +81,9 @@ class MessageController extends Controller
     public function chat($id)
     {
         $user = User::findOrFail($id);
-
+        if ($id == Auth::id()) {
+            abort(403);
+        }
         $messages = Message::where(function ($query) use ($id) {
 
             $query->where('sender_id', Auth::id())
@@ -87,7 +98,11 @@ class MessageController extends Controller
     }
     public function send(Request $request)
     {
-
+        $request->validate([
+            'receiver_id' => 'required|exists:users,id',
+            'message' => 'nullable|string',
+            'file' => 'nullable|file|max:2048',
+        ]);
         $fileName = null;
 
         if ($request->hasFile('file')) {
@@ -109,25 +124,28 @@ class MessageController extends Controller
             'file' => $fileName,
 
         ]);
-Notification::create([
+        if ($request->receiver_id == Auth::id()) {
+    abort(403);
+}
+        Notification::create([
 
-    'user_id' => $request->receiver_id,
+            'user_id' => $request->receiver_id,
 
-    'title' => 'New Message',
+            'title' => 'New Message',
 
-    'message' => Auth::user()->name . ' sent you a new message.',
+            'message' => Auth::user()->name . ' sent you a new message.',
 
-    'type' => 'chat',
+            'type' => 'chat',
 
-    'icon' => 'fas fa-comments',
+            'icon' => 'fas fa-comments',
 
-    'color' => 'info',
+            'color' => 'info',
 
-    'url' => '/messages',
+            'url' => '/messages',
 
-    'is_read' => false,
+            'is_read' => false,
 
-]);
+        ]);
 
         return back();
     }

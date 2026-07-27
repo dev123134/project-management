@@ -14,8 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\CheckUserStatus::class);
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'client' => \App\Http\Middleware\ClientMiddleware::class,
+            'freelancer' => \App\Http\Middleware\FreelancerMiddleware::class,
+            'employee' => \App\Http\Middleware\EmployeeMiddleware::class,
         ]);
-
+        $middleware->append(\App\Http\Middleware\ForceHttps::class);
         $middleware->append(\App\Http\Middleware\PreventBackHistory::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -9,6 +9,7 @@ use App\Models\Notification;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
-
+        Paginator::useBootstrapFive();
+        
         Gate::define('admin', function (User $user) {
             return $user->role === 'admin';
         });

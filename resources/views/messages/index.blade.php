@@ -5,59 +5,70 @@
 <h2>Messages</h2>
 
 <a href="/messages/create"
-   class="btn btn-success mb-3">
+    class="btn btn-success mb-3">
     Send Message
 </a>
 
-<table class="table table-bordered">
+<div class="table-responsive">
 
-    <tr>
-        <th>Sender</th>
-        <th>Receiver</th>
-        <th>Message</th>
-        <th>Action</th>
-    </tr>
+    <table class="table table-bordered table-hover">
 
-    @foreach($messages as $message)
+        <thead>
 
-    <tr>
+            <tr>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Message</th>
+                <th>Action</th>
+            </tr>
 
-        <td>
-            {{ optional($message->sender)->name }}
-            ({{ optional($message->sender)->role ? ucfirst($message->sender->role) : 'N/A' }})
-        </td>
+        </thead>
 
-        <td>
-            {{ optional($message->receiver)->name }}
-            ({{ optional($message->receiver)->role ? ucfirst($message->receiver->role) : 'N/A' }})
-        </td>
+        <tbody>
 
-        <td>{{ $message->message }}</td>
+            @foreach($messages as $message)
 
-        <td>
+            <tr>
 
-            @if($message->sender_id == Auth::id())
+                <td>
+                    {{ optional($message->sender)->name }}
+                    ({{ optional($message->sender)->role ? ucfirst($message->sender->role) : 'N/A' }})
+                </td>
 
-                <a href="/chat/{{ $message->receiver_id }}"
-                   class="btn btn-primary btn-sm">
-                    Chat
-                </a>
+                <td>
+                    {{ optional($message->receiver)->name }}
+                    ({{ optional($message->receiver)->role ? ucfirst($message->receiver->role) : 'N/A' }})
+                </td>
 
-            @else
+                <td>{{ $message->message }}</td>
 
-                <a href="/chat/{{ $message->sender_id }}"
-                   class="btn btn-primary btn-sm">
-                    Chat
-                </a>
+                <td>
 
-            @endif
+                    @if($message->sender_id == Auth::id())
 
-        </td>
+                    <a href="/chat/{{ $message->receiver_id }}"
+                        class="btn btn-primary btn-sm">
+                        Chat
+                    </a>
 
-    </tr>
+                    @else
 
-    @endforeach
+                    <a href="/chat/{{ $message->sender_id }}"
+                        class="btn btn-primary btn-sm">
+                        Chat
+                    </a>
 
-</table>
+                    @endif
 
+                </td>
+
+            </tr>
+
+            @endforeach
+
+        </tbody>
+
+    </table>
+
+</div>
 @stop

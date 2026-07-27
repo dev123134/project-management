@@ -16,116 +16,119 @@
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+        <div class="table-responsive">
 
-            <thead>
+            <table class="table table-bordered table-striped table-hover">
 
-            <tr>
+                <thead>
 
-                <th>Sr No.</th>
-                <th>Project</th>
-                <th>Status</th>
-                <th>Progress</th>
-                <th>Deadline</th>
-                <th>Budget</th>
-                <th>Action</th>
+                    <tr>
 
-            </tr>
+                        <th>Sr No.</th>
+                        <th>Project</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Deadline</th>
+                        <th>Budget</th>
+                        <th>Action</th>
 
-            </thead>
+                    </tr>
 
-            <tbody>
+                </thead>
 
-            @foreach($projects as $project)
+                <tbody>
 
-                @php
+                    @foreach($projects as $project)
 
-                    $total = \App\Models\Milestone::where('project_id',$project->id)->count();
+                    @php
 
-                    $completed = \App\Models\Milestone::where('project_id',$project->id)
-                                    ->where('status','Completed')
-                                    ->count();
+                    $total = \App\Models\Milestone::where('project_id', $project->id)->count();
 
-                    $progress = $total>0 ? round(($completed/$total)*100) : 0;
+                    $completed = \App\Models\Milestone::where('project_id', $project->id)
+                    ->where('status', 'Completed')
+                    ->count();
 
-                @endphp
+                    $progress = $total > 0 ? round(($completed / $total) * 100) : 0;
 
-                <tr>
+                    @endphp
 
-                    <td>{{ $loop->iteration }}</td>
+                    <tr>
 
-                    <td>{{ $project->title }}</td>
+                        <td>{{ $loop->iteration }}</td>
 
-                    <td>
+                        <td>{{ $project->title }}</td>
 
-                        @if($project->status=='Completed')
+                        <td>
+
+                            @if($project->status == 'Completed')
 
                             <span class="badge bg-success">
                                 Completed
                             </span>
 
-                        @elseif($project->status=='In Progress')
+                            @elseif($project->status == 'In Progress')
 
                             <span class="badge bg-warning">
                                 In Progress
                             </span>
 
-                        @else
+                            @else
 
                             <span class="badge bg-danger">
                                 Pending
                             </span>
 
-                        @endif
+                            @endif
 
-                    </td>
+                        </td>
 
-                    <td width="220">
+                        <td width="220">
 
-                        <div class="progress">
+                            <div class="progress">
 
-                            <div class="progress-bar bg-success"
-                                 style="width: {{ $project->progress }}%;">
+                                <div class="progress-bar bg-success"
+                                    style="width: {{ $project->progress }}%;">
 
-                                {{ $project->progress }}%
+                                    {{ $project->progress }}%
+
+                                </div>
 
                             </div>
 
-                        </div>
+                        </td>
 
-                    </td>
+                        <td>
 
-                    <td>
+                            {{ \Carbon\Carbon::parse($project->deadline)->format('d M Y') }}
 
-                        {{ \Carbon\Carbon::parse($project->deadline)->format('d M Y') }}
+                        </td>
 
-                    </td>
+                        <td>
 
-                    <td>
+                            ₹ {{ number_format($project->budget) }}
 
-                        ₹ {{ number_format($project->budget) }}
+                        </td>
 
-                    </td>
+                        <td>
 
+                            <a href="{{ route('admin.project.monitoring.show', $project->id) }}"
+                                class="btn btn-info btn-sm">
 
-                    <td>
+                                <i class="fas fa-eye"></i>
 
-                        <a href="{{ route('admin.project.monitoring.show',$project->id) }}"
-                           class="btn btn-info btn-sm">
+                            </a>
 
-                            <i class="fas fa-eye"></i>
+                        </td>
 
-                        </a>
+                    </tr>
 
-                    </td>
+                    @endforeach
 
-                </tr>
+                </tbody>
 
-            @endforeach
+            </table>
 
-            </tbody>
-
-        </table>
+        </div>
 
     </div>
 

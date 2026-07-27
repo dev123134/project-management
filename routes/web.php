@@ -21,7 +21,10 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\BackupController;
 use Illuminate\Support\Facades\Mail;
-
+use App\Http\Controllers\Admin\LoginHistoryController;
+use App\Http\Controllers\Freelancer\FreelancerDashboardController;
+use App\Http\Controllers\Client\ClientDashboardController;
+use App\Http\Controllers\Employee\EmployeeDashboardController;
 
 
 Route::get('/', function () {
@@ -200,17 +203,18 @@ Route::middleware(['auth', 'admin'])
             ->name('reports.project-summary.pdf');
     });
 
-Route::get('/client/dashboard', function () {
-    return view('client.dashboard');
-})->middleware('auth');
+Route::get('/client/dashboard', [ClientDashboardController::class, 'index'])
+    ->middleware(['auth', 'client']);
 
-Route::get('/freelancer/dashboard', function () {
-    return view('freelancer.dashboard');
-})->middleware('auth');
+    
+Route::get('/freelancer/dashboard', [FreelancerDashboardController::class, 'index'])
+    ->middleware(['auth', 'freelancer']);
 
-Route::get('/employee/dashboard', function () {
-    return view('employee.dashboard');
-})->middleware('auth');
+
+Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])
+    ->middleware(['auth', 'employee']);
+
+
 
 Route::get('/projects/create', [ProjectController::class, 'create'])
     ->name('projects.create');
@@ -310,5 +314,9 @@ Route::get('/test-email', function () {
 
     return 'Test Email Sent Successfully!';
 });
+
+Route::get('/admin/login-history',
+    [LoginHistoryController::class, 'index']
+)->name('admin.login-history');
 
 require __DIR__ . '/auth.php';
