@@ -206,7 +206,7 @@ Route::middleware(['auth', 'admin'])
 Route::get('/client/dashboard', [ClientDashboardController::class, 'index'])
     ->middleware(['auth', 'client']);
 
-    
+
 Route::get('/freelancer/dashboard', [FreelancerDashboardController::class, 'index'])
     ->middleware(['auth', 'freelancer']);
 
@@ -262,21 +262,21 @@ Route::get('/chat/{id}', [MessageController::class, 'chat']);
 Route::post('/chat/send', [MessageController::class, 'send']);
 
 
- // Notification List
-    Route::get('/notifications', [NotificationController::class, 'index'])
-        ->name('notifications.index');
+// Notification List
+Route::get('/notifications', [NotificationController::class, 'index'])
+    ->name('notifications.index');
 
-    // Mark Single Notification as Read
-    Route::get('/notifications/read/{id}', [NotificationController::class, 'markRead'])
-        ->name('notifications.read');
+// Mark Single Notification as Read
+Route::get('/notifications/read/{id}', [NotificationController::class, 'markRead'])
+    ->name('notifications.read');
 
-    // Mark All Notifications as Read
-    Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])
-        ->name('notifications.markAllRead');
+// Mark All Notifications as Read
+Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])
+    ->name('notifications.markAllRead');
 
-    // Delete Notification
-    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
-        ->name('notifications.destroy');
+// Delete Notification
+Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
+    ->name('notifications.destroy');
 
 
 Route::get('/groups', [GroupController::class, 'index']);
@@ -309,14 +309,20 @@ Route::get('/test-email', function () {
 
     Mail::raw('Congratulations! Laravel Email is working successfully.', function ($message) {
         $message->to('bdev2304@gmail.com')
-                ->subject('Laravel Test Email');
+            ->subject('Laravel Test Email');
     });
 
     return 'Test Email Sent Successfully!';
 });
 
-Route::get('/admin/login-history',
+Route::get(
+    '/admin/login-history',
     [LoginHistoryController::class, 'index']
 )->name('admin.login-history');
 
+Route::get('/admin/dashboard/tasks/filter', [AdminDashboardController::class, 'taskFilter'])
+    ->name('admin.dashboard.task.filter');
+
+Route::get('/admin/dashboard/revenue/filter', [AdminDashboardController::class, 'revenueFilter'])
+    ->name('admin.dashboard.revenue.filter');
 require __DIR__ . '/auth.php';

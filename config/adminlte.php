@@ -313,18 +313,14 @@ return [
             'can'  => 'freelancer',
 
             'submenu' => [
- 
+
                 [
                     'text' => 'Project',
                     'url'  => '/projects',
                     'icon' => 'fas fa-folder-open',
                 ],
 
-                [
-                    'text' => 'Milestones',
-                    'url'  => '/milestones',
-                    'icon' => 'fas fa-flag-checkered',
-                ],
+
 
                 [
                     'text' => 'Timeline',
@@ -750,6 +746,11 @@ return [
                     'text'  => 'Add Project',
                     'route' => 'projects.create',
                     'icon'  => 'fas fa-plus-circle',
+                ],
+                [
+                    'text' => 'Milestones',
+                    'url' => '/milestones',
+                    'icon' => 'fas fa-flag-checkered',
                 ],
                 [
                     'text'  => 'Delayed Projects',
