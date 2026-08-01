@@ -25,7 +25,7 @@ use App\Http\Controllers\Admin\LoginHistoryController;
 use App\Http\Controllers\Freelancer\FreelancerDashboardController;
 use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
-
+use App\Http\Controllers\MeetingController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -325,4 +325,77 @@ Route::get('/admin/dashboard/tasks/filter', [AdminDashboardController::class, 't
 
 Route::get('/admin/dashboard/revenue/filter', [AdminDashboardController::class, 'revenueFilter'])
     ->name('admin.dashboard.revenue.filter');
+
+
+
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::get('/meetings', [MeetingController::class, 'index'])
+            ->name('meetings.index');
+
+        Route::get('/meetings/create', [MeetingController::class, 'create'])
+            ->name('meetings.create');
+
+        Route::post('/meetings', [MeetingController::class, 'store'])
+            ->name('meetings.store');
+
+        Route::get('/meetings/{meeting}', [MeetingController::class, 'show'])
+            ->name('meetings.show');
+
+        Route::get('/meetings/{meeting}/edit', [MeetingController::class, 'edit'])
+            ->name('meetings.edit');
+
+        Route::put('/meetings/{meeting}', [MeetingController::class, 'update'])
+            ->name('meetings.update');
+
+        Route::delete('/meetings/{meeting}', [MeetingController::class, 'destroy'])
+            ->name('meetings.destroy');
+
+        Route::get('/meetings-upcoming', [MeetingController::class, 'upcoming'])
+            ->name('meetings.upcoming');
+
+        Route::get('/meetings-previous', [MeetingController::class, 'previous'])
+            ->name('meetings.previous');
+
+        Route::get('/meetings/{meeting}/join', [MeetingController::class, 'join'])
+            ->name('meetings.join');
+
+    });
+
+    Route::middleware(['auth', 'freelancer'])
+    ->prefix('freelancer')
+    ->name('freelancer.')
+    ->group(function () {
+
+        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
+            ->name('meetings');
+
+    });
+
+    Route::middleware(['auth', 'employee'])
+    ->prefix('employee')
+    ->name('employee.')
+    ->group(function () {
+
+        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
+            ->name('meetings');
+
+    });
+
+    Route::middleware(['auth', 'client'])
+    ->prefix('client')
+    ->name('client.')
+    ->group(function () {
+
+        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
+            ->name('meetings');
+
+    });
+
+
+
+
 require __DIR__ . '/auth.php';

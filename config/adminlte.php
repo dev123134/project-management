@@ -349,6 +349,12 @@ return [
 
             ],
         ],
+        [
+    'text' => 'My Meetings',
+    'url'  => '/freelancer/my-meetings',
+    'icon' => 'fas fa-video',
+    'can'  => 'freelancer',
+],
 
         [
             'text' => 'Internal Chat System',
@@ -492,6 +498,12 @@ return [
             ],
         ],
         [
+    'text' => 'My Meetings',
+    'url'  => '/employee/my-meetings',
+    'icon' => 'fas fa-video',
+    'can'  => 'employee',
+],
+        [
             'text' => 'Task Management',
             'icon' => 'fas fa-tasks',
             'can'  => 'employee',
@@ -566,6 +578,12 @@ return [
 
             ],
         ],
+        [
+    'text' => 'My Meetings',
+    'url'  => '/client/my-meetings',
+    'icon' => 'fas fa-video',
+    'can'  => 'client',
+],
         [
             'text' => 'Internal Chat System',
             'icon' => 'fas fa-comments',
@@ -713,11 +731,7 @@ return [
             'can'  => 'admin',
             'submenu' => [
 
-                // [
-                //     'text'  => 'Dashboard',
-                //     'route' => 'admin.chat.dashboard',
-                //     'icon'  => 'fas fa-chart-bar',
-                // ],
+
                 [
                     'text'  => 'Private Chats',
                     'route' => 'admin.chat.private',
@@ -727,6 +741,11 @@ return [
                     'text'  => 'Group Chats',
                     'route' => 'admin.chat.groups',
                     'icon'  => 'fas fa-users',
+                ],
+                [
+                    'text'  => 'Meetings',
+                    'route' => 'admin.meetings.index',
+                    'icon'  => 'fas fa-video',
                 ],
             ],
         ],

@@ -73,4 +73,15 @@ public function uploadedFiles()
 {
     return $this->hasMany(ProjectFile::class, 'uploaded_by');
 }
+
+public function meetingsCreated()
+{
+    return $this->hasMany(Meeting::class, 'created_by');
+}
+
+
+public function meetingParticipants()
+{
+    return $this->hasMany(MeetingParticipant::class);
+}
 }
