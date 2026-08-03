@@ -12,7 +12,7 @@
 
     <!-- Total Users -->
     <div class="col-xl col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-        <a href="#" class="dashboard-card">
+        <a href="/admin/users" class="dashboard-card">
             <div class="card dashboard-box">
                 <div class="card-body d-flex align-items-center">
                     <div class="dashboard-icon bg-primary">
@@ -47,7 +47,7 @@
 
     <!-- Total Projects -->
     <div class="col-xl col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-        <a href="#" class="dashboard-card">
+        <a href="/admin/project-monitoring" class="dashboard-card">
             <div class="card dashboard-box">
                 <div class="card-body d-flex align-items-center">
                     <div class="dashboard-icon bg-success">
@@ -82,7 +82,7 @@
 
     <!-- Total Clients -->
     <div class="col-xl col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-        <a href="#" class="dashboard-card">
+        <a href="/admin/users" class="dashboard-card">
             <div class="card dashboard-box">
                 <div class="card-body d-flex align-items-center">
                     <div class="dashboard-icon bg-info">
@@ -117,7 +117,7 @@
 
     <!-- Total Tasks -->
     <div class="col-xl col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-        <a href="#" class="dashboard-card">
+        <a href="/tasks" class="dashboard-card">
             <div class="card dashboard-box">
                 <div class="card-body d-flex align-items-center">
                     <div class="dashboard-icon bg-warning">
@@ -152,7 +152,7 @@
 
     <!-- Total Revenue -->
     <div class="col-xl col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-        <a href="#" class="dashboard-card">
+        <a href="/admin/project-monitoring" class="dashboard-card">
             <div class="card dashboard-box">
                 <div class="card-body d-flex align-items-center">
                     <div class="dashboard-icon bg-danger">
