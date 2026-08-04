@@ -53,8 +53,17 @@
 
         <div class="auth-logo">
             <a href="{{ url('/') }}">
-                <img src="{{ asset('images/logo.jpeg') }}" alt="{{ config('app.name', 'Console') }} logo">
-            </a>
+<img src="{{ asset('images/logo.jpeg') }}"
+     alt="{{ config('app.name', 'Console') }} logo"
+     style="
+        width: 85px;
+        height: 85px;
+        border-radius: 50%;
+        background: #ffffff;
+        padding: 6px;
+        border: 2px solid #d1d5db;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.20);
+     ">            </a>
             <!-- <span>{{ config('app.name', 'Console') }} / Project Hub</span> -->
         </div>
 

@@ -21,6 +21,7 @@
                         <th>ID</th>
                         <th>Project</th>
                         <th>Task</th>
+                        <th>Assigned Date</th>
                         <th>Assigned To</th>
                         <th>Priority</th>
                         <th>Status</th>
@@ -40,7 +41,7 @@
                         <td>{{ $task->project->title ?? '-' }}</td>
 
                         <td>{{ $task->title }}</td>
-
+                        <td>{{ $task->assigned_date }}</td>
                         <td>{{ $task->assignee->name ?? '-' }}</td>
 
                         <td>{{ $task->priority }}</td>
@@ -87,10 +88,10 @@
                                 Comments
                             </a>
 
-                            <a href="{{ route('tasks.edit', $task->id) }}"
+                            <!-- <a href="{{ route('tasks.edit', $task->id) }}"
                                 class="btn btn-sm btn-primary">
                                 Edit
-                            </a>
+                            </a> -->
 
                             <form action="{{ route('tasks.destroy', $task->id) }}"
                                 method="POST"

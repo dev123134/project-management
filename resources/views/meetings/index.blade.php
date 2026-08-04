@@ -31,11 +31,11 @@
 </div>
 
 @endif
-<div class="mb-3 text-end">
+<!-- <div class="mb-3 text-end">
     <a href="{{ route('admin.meetings.create') }}" class="btn btn-success">
         <i class="fas fa-plus"></i> Schedule Meeting
     </a>
-</div>
+</div> -->
 
 <div class="table-responsive">
 

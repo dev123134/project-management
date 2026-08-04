@@ -25,12 +25,12 @@
 
                     @foreach($projects as $project)
 
-                        <option value="{{ $project->id }}"
-                            {{ $task->project_id == $project->id ? 'selected' : '' }}>
+                    <option value="{{ $project->id }}"
+                        {{ $task->project_id == $project->id ? 'selected' : '' }}>
 
-                            {{ $project->title }}
+                        {{ $project->title }}
 
-                        </option>
+                    </option>
 
                     @endforeach
 
@@ -42,9 +42,9 @@
                 <label>Task Title</label>
 
                 <input type="text"
-                       name="title"
-                       value="{{ $task->title }}"
-                       class="form-control">
+                    name="title"
+                    value="{{ $task->title }}"
+                    class="form-control">
             </div>
 
             {{-- Description --}}
@@ -52,10 +52,17 @@
                 <label>Description</label>
 
                 <textarea name="description"
-                          rows="4"
-                          class="form-control">{{ $task->description }}</textarea>
+                    rows="4"
+                    class="form-control">{{ $task->description }}</textarea>
             </div>
+<div class="mb-3">
+    <label>Assigned Date</label>
 
+    <input type="date"
+           name="assigned_date"
+           class="form-control"
+           value="{{ old('assigned_date', $task->assigned_date) }}">
+</div>
             {{-- Assign To --}}
             <div class="mb-3">
                 <label>Assign To</label>
@@ -64,12 +71,12 @@
 
                     @foreach($users as $user)
 
-                        <option value="{{ $user->id }}"
-                            {{ $task->assigned_to == $user->id ? 'selected' : '' }}>
+                    <option value="{{ $user->id }}"
+                        {{ $task->assigned_to == $user->id ? 'selected' : '' }}>
 
-                            {{ $user->name }}
+                        {{ $user->name }}
 
-                        </option>
+                    </option>
 
                     @endforeach
 
@@ -134,11 +141,23 @@
                 <label>Due Date</label>
 
                 <input type="date"
-                       name="due_date"
-                       value="{{ $task->due_date }}"
-                       class="form-control">
+                    name="due_date"
+                    value="{{ $task->due_date }}"
+                    class="form-control">
             </div>
+            <div class="mb-3">
+                <label>GitHub Link</label>
 
+                <input type="url"
+                    name="github_link"
+                    class="form-control"
+                    value="{{ old('github_link', $task->github_link) }}"
+                    placeholder="https://github.com/username/repository">
+
+                <small class="text-muted">
+                    Optional - Repository / Commit / Pull Request Link
+                </small>
+            </div>
             {{-- Buttons --}}
             <div class="mt-3">
 
@@ -147,7 +166,7 @@
                 </button>
 
                 <a href="{{ route('tasks.index') }}"
-                   class="btn btn-secondary">
+                    class="btn btn-secondary">
                     Back
                 </a>
 

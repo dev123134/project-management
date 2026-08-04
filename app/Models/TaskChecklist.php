@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class TaskChecklist extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'task_id',
+        'title',
+        'is_completed',
+    ];
+
+
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
+    public function checklists()
+    {
+        return $this->hasMany(TaskChecklist::class);
+    }
+}

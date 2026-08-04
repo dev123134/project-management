@@ -18,7 +18,17 @@
 
     </div>
 
-    <form action="{{ route('admin.meetings.store') }}" method="POST">
+    <form action="
+@if(Auth::user()->role=='admin')
+{{ route('admin.meetings.store') }}
+@elseif(Auth::user()->role=='employee')
+{{ route('employee.meetings.store') }}
+@elseif(Auth::user()->role=='client')
+{{ route('client.meetings.store') }}
+@else
+{{ route('freelancer.meetings.store') }}
+@endif
+" method="POST">
 
         @csrf
 
@@ -167,12 +177,7 @@
 
             </button>
 
-            <a href="{{ route('admin.meetings.index') }}"
-                class="btn btn-secondary">
-
-                Cancel
-
-            </a>
+          
 
         </div>
 

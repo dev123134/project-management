@@ -25,6 +25,7 @@
                         <th>Priority</th>
                         <th>Status</th>
                         <th>Due Date</th>
+                        <th>GitHub Link</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -70,7 +71,31 @@
                         </td>
 
                         <td>{{ $task->due_date }}</td>
+                        <td>
 
+                            @if($task->github_link)
+
+                            <a href="{{ $task->github_link }}"
+                                target="_blank"
+                                class="btn btn-sm btn-dark">
+
+                                <i class="fab fa-github"></i>
+
+                                View
+
+                            </a>
+
+                            @else
+
+                            <span class="text-muted">
+
+                                -
+
+                            </span>
+
+                            @endif
+
+                        </td>
                         <td>
 
                             @if(auth()->user()->role == 'admin')
@@ -100,7 +125,12 @@
                                 class="btn btn-sm btn-info">
                                 Comments
                             </a>
+                            <a href="{{ route('tasks.checklist', $task->id) }}"
+                                class="btn btn-sm btn-success">
 
+                                Checklist
+
+                            </a>
                         </td>
 
                     </tr>
@@ -121,7 +151,7 @@
 
         </div>
 
-</div>
+    </div>
 
 </div>
 

@@ -18,6 +18,8 @@ class Task extends Model
     'priority',
     'due_date',
     'status',
+    'github_link',
+    'assigned_date',
 ];
 
 public function project()

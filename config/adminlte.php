@@ -349,12 +349,27 @@ return [
 
             ],
         ],
-        [
-    'text' => 'My Meetings',
-    'url'  => '/freelancer/my-meetings',
-    'icon' => 'fas fa-video',
-    'can'  => 'freelancer',
-],
+         [
+            'text' => 'Meetings',
+            'icon' => 'fas fa-video',
+            'can' => 'freelancer',
+
+            'submenu' => [
+
+                [
+                    'text' => 'My Meetings',
+                    'url' => '/freelancer/my-meetings',
+                    'icon' => 'fas fa-list',
+                ],
+
+                [
+                    'text' => 'Create Meeting',
+                    'route' => 'freelancer.meetings.create',
+                    'icon' => 'fas fa-plus-circle',
+                ],
+
+            ],
+        ],
 
         [
             'text' => 'Internal Chat System',
@@ -363,7 +378,7 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'One-to-One Chat',
+                    'text' => 'Chat',
                     'url'  => '/messages',
                     'icon' => 'fas fa-comment',
                 ],
@@ -478,7 +493,7 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'One-to-One Chat',
+                    'text' => ' Chat',
                     'url'  => '/messages',
                     'icon' => 'fas fa-comment',
                 ],
@@ -498,11 +513,26 @@ return [
             ],
         ],
         [
-    'text' => 'My Meetings',
-    'url'  => '/employee/my-meetings',
-    'icon' => 'fas fa-video',
-    'can'  => 'employee',
-],
+            'text' => 'Meetings',
+            'icon' => 'fas fa-video',
+            'can' => 'employee',
+
+            'submenu' => [
+
+                [
+                    'text' => 'My Meetings',
+                    'url' => '/employee/my-meetings',
+                    'icon' => 'fas fa-list',
+                ],
+
+                [
+                    'text' => 'Create Meeting',
+                    'route' => 'employee.meetings.create',
+                    'icon' => 'fas fa-plus-circle',
+                ],
+
+            ],
+        ],
         [
             'text' => 'Task Management',
             'icon' => 'fas fa-tasks',
@@ -579,11 +609,26 @@ return [
             ],
         ],
         [
-    'text' => 'My Meetings',
-    'url'  => '/client/my-meetings',
-    'icon' => 'fas fa-video',
-    'can'  => 'client',
-],
+            'text' => 'Meetings',
+            'icon' => 'fas fa-video',
+            'can' => 'client',
+
+            'submenu' => [
+
+                [
+                    'text' => 'My Meetings',
+                    'url' => '/client/my-meetings',
+                    'icon' => 'fas fa-list',
+                ],
+
+                [
+                    'text' => 'Create Meeting',
+                    'route' => 'client.meetings.create',
+                    'icon' => 'fas fa-plus-circle',
+                ],
+
+            ],
+        ],
         [
             'text' => 'Internal Chat System',
             'icon' => 'fas fa-comments',
@@ -592,7 +637,7 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'One-to-One Chat',
+                    'text' => 'Chat',
                     'url'  => '/messages',
                     'icon' => 'fas fa-comment',
                 ],
@@ -704,7 +749,7 @@ return [
             'submenu' => [
 
                 [
-                    'text' => 'One-to-One Chat',
+                    'text' => ' Chat',
                     'url'  => '/messages',
                     'icon' => 'fas fa-comment',
                 ],
@@ -742,14 +787,33 @@ return [
                     'route' => 'admin.chat.groups',
                     'icon'  => 'fas fa-users',
                 ],
-                [
-                    'text'  => 'Meetings',
-                    'route' => 'admin.meetings.index',
-                    'icon'  => 'fas fa-video',
-                ],
+                // [
+                //     'text'  => 'Meetings',
+                //     'route' => 'admin.meetings.index',
+                //     'icon'  => 'fas fa-video',
+                // ],
             ],
         ],
+        [
+            'text' => 'Meetings',
+            'icon' => 'fas fa-video',
+            'can'  => 'admin',
+            'submenu' => [
 
+                [
+                    'text' => 'All Meetings',
+                    'route' => 'admin.meetings.index',
+                    'icon' => 'fas fa-list',
+                ],
+
+                [
+                    'text' => 'Create Meeting',
+                    'route' => 'admin.meetings.create',
+                    'icon' => 'fas fa-plus-circle',
+                ],
+
+            ],
+        ],
         [
             'text' => 'Project Monitoring',
             'icon' => 'fas fa-project-diagram',

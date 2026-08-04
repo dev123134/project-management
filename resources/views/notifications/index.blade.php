@@ -219,5 +219,39 @@
     </div>
 
 </div>
+<audio id="notificationSound">
+    <source src="{{ asset('sounds/notification.wav') }}" type="audio/mpeg">
+</audio>
 
+<script>
+window.onload = function () {
+    document.getElementById('notificationSound').play();
+};
+let unreadCount = 0;
+
+fetch("{{ route('notifications.unreadCount') }}")
+.then(response => response.json())
+.then(data => {
+    unreadCount = data.count;
+});
+
+setInterval(function () {
+
+    fetch("{{ route('notifications.unreadCount') }}")
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.count > unreadCount) {
+
+            document.getElementById('notificationSound').play();
+
+        }
+
+        unreadCount = data.count;
+
+    });
+
+}, 3000);
+
+</script>
 @stop

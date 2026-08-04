@@ -13,9 +13,9 @@ class TaskComment extends Model
     ];
 
     public function task()
-    {
-        return $this->belongsTo(Task::class);
-    }
+{
+    return $this->belongsTo(Task::class)->withTrashed();
+}
 
     public function user()
     {

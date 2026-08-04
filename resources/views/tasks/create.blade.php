@@ -18,9 +18,9 @@
                     <option value="">Select Project</option>
 
                     @foreach($projects as $project)
-                        <option value="{{ $project->id }}">
-                            {{ $project->title }}
-                        </option>
+                    <option value="{{ $project->id }}">
+                        {{ $project->title }}
+                    </option>
                     @endforeach
                 </select>
             </div>
@@ -37,17 +37,17 @@
 
             <div class="mb-3">
                 <label>Assign To</label>
-               <select name="assigned_to" class="form-control">
+                <select name="assigned_to" class="form-control">
 
-    @foreach($users as $user)
+                    @foreach($users as $user)
 
-      <option value="{{ $user->id }}">
-    {{ $user->name }} ({{ ucfirst($user->role) }})
-</option>
+                    <option value="{{ $user->id }}">
+                        {{ $user->name }} ({{ ucfirst($user->role) }})
+                    </option>
 
-    @endforeach
+                    @endforeach
 
-</select>
+                </select>
             </div>
 
             <div class="mb-3">
@@ -59,12 +59,30 @@
                     <option>Urgent</option>
                 </select>
             </div>
+<div class="mb-3">
+    <label>Assigned Date</label>
 
+    <input type="date"
+           name="assigned_date"
+           class="form-control"
+           value="{{ date('Y-m-d') }}">
+</div>
             <div class="mb-3">
                 <label>Due Date</label>
                 <input type="date" name="due_date" class="form-control">
             </div>
+            <div class="mb-3">
+                <label>GitHub Link</label>
 
+                <input type="url"
+                    name="github_link"
+                    class="form-control"
+                    placeholder="https://github.com/username/repository">
+
+                <small class="text-muted">
+                    Optional - Repository / Commit / Pull Request Link
+                </small>
+            </div>
             <button type="submit" class="btn btn-primary">
                 Create Task
             </button>

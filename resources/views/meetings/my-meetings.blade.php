@@ -3,7 +3,7 @@
 @section('title', 'My Meetings')
 
 @section('content_header')
-    <h1>My Meetings</h1>
+<h1>My Meetings</h1>
 @stop
 
 @section('content')
@@ -14,13 +14,35 @@
     {{ session('success') }}
 
     <button type="button"
-            class="btn-close"
-            data-bs-dismiss="alert">
+        class="btn-close"
+        data-bs-dismiss="alert">
     </button>
 
 </div>
 @endif
+<!-- <div class="mb-3 text-end">
 
+    @if(Auth::user()->role == 'employee')
+    <a href="{{ route('employee.meetings.create') }}" class="btn btn-success">
+        @elseif(Auth::user()->role == 'client')
+        <a href="{{ route('client.meetings.create') }}" class="btn btn-success">
+            @elseif(Auth::user()->role == 'freelancer')
+            <a href="{{ route('freelancer.meetings.create') }}" class="btn btn-success">
+                @else
+                <a href="{{ route('admin.meetings.create') }}" class="btn btn-success">
+                    @endif
+
+                    <i class="fas fa-plus"></i> Schedule Meeting
+
+                </a>
+
+                <i class="fas fa-plus"></i>
+
+                Schedule Meeting
+
+            </a>
+
+</div> -->
 <div class="card">
 
     <div class="card-header bg-primary">
@@ -43,31 +65,31 @@
 
                 <thead class="table-light">
 
-                <tr>
+                    <tr>
 
-                    <th>ID</th>
+                        <th>ID</th>
 
-                    <th>Meeting Title</th>
+                        <th>Meeting Title</th>
 
-                    <th>Date</th>
+                        <th>Date</th>
 
-                    <th>Time</th>
+                        <th>Time</th>
 
-                    <th>Duration</th>
+                        <th>Duration</th>
 
-                    <th>Created By</th>
+                        <th>Created By</th>
 
-                    <th>Status</th>
+                        <th>Status</th>
 
-                    <th width="180">Action</th>
+                        <th width="180">Action</th>
 
-                </tr>
+                    </tr>
 
                 </thead>
 
                 <tbody>
 
-                @forelse($meetings as $meeting)
+                    @forelse($meetings as $meeting)
 
                     <tr>
 
@@ -95,27 +117,27 @@
 
                             @if($meeting->status=='upcoming')
 
-                                <span class="badge bg-primary">
+                            <span class="badge bg-primary">
 
-                                    Upcoming
+                                Upcoming
 
-                                </span>
+                            </span>
 
                             @elseif($meeting->status=='completed')
 
-                                <span class="badge bg-success">
+                            <span class="badge bg-success">
 
-                                    Completed
+                                Completed
 
-                                </span>
+                            </span>
 
                             @else
 
-                                <span class="badge bg-danger">
+                            <span class="badge bg-danger">
 
-                                    Cancelled
+                                Cancelled
 
-                                </span>
+                            </span>
 
                             @endif
 
@@ -125,24 +147,24 @@
 
                             @if($meeting->meeting_link)
 
-                                <a href="{{ $meeting->meeting_link }}"
-                                   target="_blank"
-                                   class="btn btn-success btn-sm">
+                            <a href="{{ $meeting->meeting_link }}"
+                                target="_blank"
+                                class="btn btn-success btn-sm">
 
-                                    <i class="fas fa-video"></i>
+                                <i class="fas fa-video"></i>
 
-                                    Join Meeting
+                                Join Meeting
 
-                                </a>
+                            </a>
 
                             @else
 
-                                <button class="btn btn-secondary btn-sm"
-                                        disabled>
+                            <button class="btn btn-secondary btn-sm"
+                                disabled>
 
-                                    Link Not Available
+                                Link Not Available
 
-                                </button>
+                            </button>
 
                             @endif
 
@@ -150,7 +172,7 @@
 
                     </tr>
 
-                @empty
+                    @empty
 
                     <tr>
 
@@ -163,7 +185,7 @@
 
                     </tr>
 
-                @endforelse
+                    @endforelse
 
                 </tbody>
 
@@ -175,11 +197,11 @@
 
     @if($meetings->count())
 
-        <div class="card-footer">
+    <div class="card-footer">
 
-            {{ $meetings->links() }}
+        {{ $meetings->links() }}
 
-        </div>
+    </div>
 
     @endif
 

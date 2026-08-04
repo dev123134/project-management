@@ -11,6 +11,7 @@
 <div class="row">
 
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+        <a href="/tasks/assigned">
         <div class="small-box bg-info">
             <div class="inner">
                 <h3>{{ $assignedTasks }}</h3>
@@ -20,9 +21,11 @@
                 <i class="fas fa-tasks"></i>
             </div>
         </div>
+        </a>
     </div>
 
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+        <a href="/tasks/assigned">
         <div class="small-box bg-success">
             <div class="inner">
                 <h3>{{ $completedTasks }}</h3>
@@ -32,9 +35,11 @@
                 <i class="fas fa-check-circle"></i>
             </div>
         </div>
+        </a>
     </div>
 
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">
+        <a href="/tasks/assigned">
         <div class="small-box bg-warning">
             <div class="inner">
                 <h3>{{ $pendingTasks }}</h3>
@@ -44,6 +49,7 @@
                 <i class="fas fa-hourglass-half"></i>
             </div>
         </div>
+        </a>
     </div>
 
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-3">

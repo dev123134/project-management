@@ -1,74 +1,107 @@
 @extends('adminlte::page')
 
+@section('title', 'Chat')
+
+@section('content_header')
+<h1>Recent Chats</h1>
+@stop
+
 @section('content')
 
-<h2>Messages</h2>
+<div class="card">
 
-<a href="/messages/create"
-    class="btn btn-success mb-3">
-    Send Message
-</a>
+    <div class="card-header">
 
-<div class="table-responsive">
+        <h3 class="card-title">
 
-    <table class="table table-bordered table-hover">
+            <i class="fas fa-comments"></i>
 
-        <thead>
+            Chats
 
-            <tr>
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>Message</th>
-                <th>Action</th>
-            </tr>
+        </h3>
 
-        </thead>
+    </div>
 
-        <tbody>
+    <div class="card-body p-0">
 
-            @foreach($messages as $message)
+        @forelse($users as $user)
 
-            <tr>
+            <a href="/chat/{{ $user->id }}"
+               class="text-decoration-none text-dark">
 
-                <td>
-                    {{ optional($message->sender)->name }}
-                    ({{ optional($message->sender)->role ? ucfirst($message->sender->role) : 'N/A' }})
-                </td>
+                <div class="d-flex justify-content-between align-items-center p-3 border-bottom
+                    {{ $user->has_unread ? 'bg-light' : '' }}">
 
-                <td>
-                    {{ optional($message->receiver)->name }}
-                    ({{ optional($message->receiver)->role ? ucfirst($message->receiver->role) : 'N/A' }})
-                </td>
+                    <div>
 
-                <td>{{ $message->message }}</td>
+                        <h5 class="mb-1">
 
-                <td>
+                            @if($user->has_unread)
 
-                    @if($message->sender_id == Auth::id())
+                                <strong>{{ $user->name }}</strong>
 
-                    <a href="/chat/{{ $message->receiver_id }}"
-                        class="btn btn-primary btn-sm">
-                        Chat
-                    </a>
+                                <span class="badge bg-danger ms-2">
+                                    New
+                                </span>
 
-                    @else
+                            @else
 
-                    <a href="/chat/{{ $message->sender_id }}"
-                        class="btn btn-primary btn-sm">
-                        Chat
-                    </a>
+                                {{ $user->name }}
 
-                    @endif
+                            @endif
 
-                </td>
+                        </h5>
 
-            </tr>
+                        <small class="text-muted">
 
-            @endforeach
+                            {{ ucfirst($user->role) }}
 
-        </tbody>
+                        </small>
 
-    </table>
+                        <br>
+
+                        @if($user->last_message)
+
+                            <small>
+
+                                {{ \Illuminate\Support\Str::limit($user->last_message->message,40) }}
+
+                            </small>
+
+                        @endif
+
+                    </div>
+
+                    <div class="text-end">
+
+                        @if($user->last_message)
+
+                            <small class="text-muted">
+
+                                {{ $user->last_message->created_at->format('d M h:i A') }}
+
+                            </small>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        @empty
+
+            <div class="p-5 text-center">
+
+                No Users Found
+
+            </div>
+
+        @endforelse
+
+    </div>
 
 </div>
+
 @stop

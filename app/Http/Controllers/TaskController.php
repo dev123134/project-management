@@ -21,17 +21,17 @@ class TaskController extends Controller
 
         if ($user->role == 'admin') {
             $tasks = Task::with(['project', 'assignee'])
-                ->latest()
+                ->oldest()
                 ->get();
         } elseif ($user->role == 'freelancer') {
             $tasks = Task::with(['project', 'assignee'])
                 ->where('assigned_to', $user->id)
-                ->latest()
+                ->oldest()
                 ->get();
         } else {
             $tasks = Task::with(['project', 'assignee'])
                 ->where('assigned_to', $user->id)
-                ->latest()
+                ->oldest()
                 ->get();
         }
 
@@ -63,16 +63,17 @@ class TaskController extends Controller
         if (Auth::user()->role != 'admin') {
             abort(403);
         }
-
         $task = Task::create([
-            'project_id'  => $request->project_id,
+            'project_id' => $request->project_id,
             'assigned_by' => Auth::id(),
             'assigned_to' => $request->assigned_to,
-            'title'       => $request->title,
+            'title' => $request->title,
             'description' => $request->description,
-            'priority'    => $request->priority,
-            'due_date'    => $request->due_date,
-            'status'      => 'Pending',
+            'priority' => $request->priority,
+            'assigned_date' => $request->assigned_date,
+            'due_date' => $request->due_date,
+            'github_link' => $request->github_link,
+            'status' => 'Pending',
         ]);
 
         $task->load(['project', 'assigner', 'assignee']);
@@ -132,23 +133,16 @@ class TaskController extends Controller
         }
 
         $task->update([
-
-            'project_id' => $request->project_id,
-
+            'project_id'  => $request->project_id,
             'assigned_to' => $request->assigned_to,
-
-            'title' => $request->title,
-
+            'title'       => $request->title,
             'description' => $request->description,
-
-            'priority' => $request->priority,
-
-            'due_date' => $request->due_date,
-
-            'status' => $request->status,
-
+            'priority'    => $request->priority,
+            'assigned_date' => $request->assigned_date,
+            'due_date'    => $request->due_date,
+            'github_link' => $request->github_link,
+            'status'      => $request->status,
         ]);
-
         return redirect()
             ->route('tasks.index')
             ->with(
@@ -206,7 +200,7 @@ class TaskController extends Controller
     {
         $tasks = Task::with(['project', 'assignee'])
             ->where('assigned_to', Auth::id())
-            ->latest()
+            ->oldest()
             ->get();
 
         return view('tasks.assigned', compact('tasks'));

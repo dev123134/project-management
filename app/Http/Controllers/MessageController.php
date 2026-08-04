@@ -11,15 +11,44 @@ use App\Models\Notification;
 class MessageController extends Controller
 {
     public function index()
-    {
-        $messages = Message::with(['sender', 'receiver'])
-            ->where('sender_id', Auth::id())
-            ->orWhere('receiver_id', Auth::id())
-            ->latest()
-            ->get();
+{
+    $authId = Auth::id();
 
-        return view('messages.index', compact('messages'));
-    }
+    $users = User::where('id', '!=', $authId)
+        ->where('status', 'active')
+        ->get();
+
+    $users = $users->map(function ($user) use ($authId) {
+
+        $lastMessage = Message::where(function ($query) use ($authId, $user) {
+
+            $query->where('sender_id', $authId)
+                  ->where('receiver_id', $user->id);
+
+        })->orWhere(function ($query) use ($authId, $user) {
+
+            $query->where('sender_id', $user->id)
+                  ->where('receiver_id', $authId);
+
+        })->latest()->first();
+
+        $user->last_message = $lastMessage;
+
+        $user->has_unread = Message::where('sender_id', $user->id)
+            ->where('receiver_id', $authId)
+            ->where('is_read', false)
+            ->exists();
+
+        return $user;
+
+    })->sortByDesc(function ($user) {
+
+        return optional($user->last_message)->created_at;
+
+    });
+
+    return view('messages.index', compact('users'));
+}
 
     public function create()
     {
@@ -46,8 +75,8 @@ class MessageController extends Controller
                 ->move(public_path('uploads'), $fileName);
         }
         if ($request->receiver_id == Auth::id()) {
-    abort(403);
-}
+            abort(403);
+        }
         Notification::create([
 
             'user_id' => $request->receiver_id,
@@ -72,6 +101,7 @@ class MessageController extends Controller
             'receiver_id' => $request->receiver_id,
             'message' => $request->message,
             'file' => $fileName,
+            'is_read' => false,
         ]);
 
         return redirect('/messages')
@@ -81,9 +111,19 @@ class MessageController extends Controller
     public function chat($id)
     {
         $user = User::findOrFail($id);
+
         if ($id == Auth::id()) {
             abort(403);
         }
+
+        // Mark received messages as read
+        Message::where('sender_id', $id)
+            ->where('receiver_id', Auth::id())
+            ->where('is_read', false)
+            ->update([
+                'is_read' => true
+            ]);
+
         $messages = Message::where(function ($query) use ($id) {
 
             $query->where('sender_id', Auth::id())
@@ -123,10 +163,12 @@ class MessageController extends Controller
 
             'file' => $fileName,
 
+            'is_read' => false,
+
         ]);
         if ($request->receiver_id == Auth::id()) {
-    abort(403);
-}
+            abort(403);
+        }
         Notification::create([
 
             'user_id' => $request->receiver_id,

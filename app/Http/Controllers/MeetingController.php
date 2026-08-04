@@ -10,25 +10,20 @@ use Illuminate\Support\Facades\Auth;
 
 class MeetingController extends Controller
 {
-    /**
-     * Display all meetings.
-     */
+
     public function index()
     {
         $meetings = Meeting::with('creator')
-            ->latest()
+            ->oldest()
             ->paginate(10);
 
         return view('meetings.index', compact('meetings'));
     }
 
-    /**
-     * Show create meeting form.
-     */
     public function create()
     {
-        $users = User::where('status', 'active')
-            ->where('id', '!=', Auth::id())
+        $users = User::where('id', '!=', Auth::id())
+            ->where('status', 'active')
             ->orderBy('name')
             ->get();
 
@@ -64,20 +59,45 @@ class MeetingController extends Controller
 
         ]);
 
-        foreach ($request->participants as $userId) {
+MeetingParticipant::create([
+    'meeting_id' => $meeting->id,
+    'user_id' => Auth::id(),
+]);
 
-            MeetingParticipant::create([
+foreach ($request->participants as $userId) {
 
-                'meeting_id' => $meeting->id,
-                'user_id' => $userId,
-                'attendance_status' => 'pending',
+    if ($userId != Auth::id()) {
 
-            ]);
+        MeetingParticipant::create([
+            'meeting_id' => $meeting->id,
+            'user_id' => $userId,
+        ]);
+
+    }
+
+}
+
+        if (Auth::user()->role == 'admin') {
+
+            return redirect()
+                ->route('admin.meetings.index')
+                ->with('success', 'Meeting scheduled successfully.');
+        } else {
+
+            if (Auth::user()->role == 'admin') {
+
+                return redirect()->route('admin.meetings.index');
+            } elseif (Auth::user()->role == 'employee') {
+
+                return redirect()->route('employee.meetings.my');
+            } elseif (Auth::user()->role == 'client') {
+
+                return redirect()->route('client.meetings.my');
+            } else {
+
+                return redirect()->route('freelancer.meetings.my');
+            }
         }
-
-        return redirect()
-            ->route('admin.meetings.index')
-            ->with('success', 'Meeting scheduled successfully.');
     }
 
     public function show(Meeting $meeting)

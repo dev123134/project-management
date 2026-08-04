@@ -26,6 +26,11 @@ use App\Http\Controllers\Freelancer\FreelancerDashboardController;
 use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\TaskChecklistController;
+
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -277,7 +282,8 @@ Route::post('/notifications/mark-all-read', [NotificationController::class, 'mar
 // Delete Notification
 Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])
     ->name('notifications.destroy');
-
+Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
+    ->name('notifications.unreadCount');
 
 Route::get('/groups', [GroupController::class, 'index']);
 Route::get('/groups/create', [GroupController::class, 'create']);
@@ -362,40 +368,70 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/meetings/{meeting}/join', [MeetingController::class, 'join'])
             ->name('meetings.join');
-
     });
 
-    Route::middleware(['auth', 'freelancer'])
-    ->prefix('freelancer')
-    ->name('freelancer.')
-    ->group(function () {
-
-        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
-            ->name('meetings');
-
-    });
-
-    Route::middleware(['auth', 'employee'])
+Route::middleware(['auth', 'employee'])
     ->prefix('employee')
     ->name('employee.')
     ->group(function () {
 
-        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
-            ->name('meetings');
+        Route::get('/meetings/create', [MeetingController::class, 'create'])
+            ->name('meetings.create');
 
+        Route::post('/meetings/store', [MeetingController::class, 'store'])
+            ->name('meetings.store');
+
+        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
+            ->name('meetings.my');
     });
 
-    Route::middleware(['auth', 'client'])
+Route::middleware(['auth', 'client'])
     ->prefix('client')
     ->name('client.')
     ->group(function () {
 
-        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
-            ->name('meetings');
+        Route::get('/meetings/create', [MeetingController::class, 'create'])
+            ->name('meetings.create');
 
+        Route::post('/meetings/store', [MeetingController::class, 'store'])
+            ->name('meetings.store');
+
+        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
+            ->name('meetings.my');
+    });
+
+Route::middleware(['auth', 'freelancer'])
+    ->prefix('freelancer')
+    ->name('freelancer.')
+    ->group(function () {
+
+        Route::get('/meetings/create', [MeetingController::class, 'create'])
+            ->name('meetings.create');
+
+        Route::post('/meetings/store', [MeetingController::class, 'store'])
+            ->name('meetings.store');
+
+        Route::get('/my-meetings', [MeetingController::class, 'myMeetings'])
+            ->name('meetings.my');
     });
 
 
+Route::middleware(['auth'])->group(function () {
+
+    Route::get(
+        '/tasks/{task}/checklist',
+        [TaskChecklistController::class, 'index']
+    )->name('tasks.checklist');
+
+    Route::post(
+        '/tasks/{task}/checklist',
+        [TaskChecklistController::class, 'store']
+    )->name('tasks.checklist.store');
+    Route::post(
+        '/tasks/{task}/checklist/update',
+        [TaskChecklistController::class, 'update']
+    )->name('tasks.checklist.update');
+});
 
 
 require __DIR__ . '/auth.php';
