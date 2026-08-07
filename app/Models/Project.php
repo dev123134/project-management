@@ -66,4 +66,11 @@ public function getProgressAttribute()
         ? round(($completed / $total) * 100)
         : 0;
 }
+
+public function invoices()
+{
+    return $this->hasMany(Invoice::class);
+}
+
+
 }

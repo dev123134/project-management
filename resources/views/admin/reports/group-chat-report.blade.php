@@ -6,17 +6,44 @@
 
 <div class="container-fluid">
 
-    <div class="row mb-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
-        <div class="col-md-6">
+        <h2 class="mb-2 mb-md-0">
 
-            <h2>
+            <i class="fas fa-users"></i>
 
-                <i class="fas fa-users"></i>
+            Group Chat Report
 
-                Group Chat Report
+        </h2>
 
-            </h2>
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="{{ route('admin.reports.group-chat.pdf') }}"
+                class="btn btn-danger">
+
+                <i class="fas fa-file-pdf"></i>
+
+                PDF Export
+
+            </a>
+
+            <a href="{{ route('admin.reports.group-chat.csv') }}"
+                class="btn btn-success">
+
+                <i class="fas fa-file-excel"></i>
+
+                CSV Export
+
+            </a>
+
+            <!-- <a href="{{ url()->previous() }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a> -->
 
         </div>
 
@@ -72,37 +99,37 @@
 
     <div class="card card-primary">
 
-    <div class="card-header">
+        <div class="card-header">
 
-        <h3 class="card-title">
-            Search & Filter
-        </h3>
+            <h3 class="card-title">
+                Search & Filter
+            </h3>
 
-    </div>
+        </div>
 
-    <div class="card-body">
+        <div class="card-body">
 
-        <form method="GET">
+            <form method="GET">
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-md-3">
+                    <div class="col-md-3">
 
-                    <input type="text"
-                           name="search"
-                           class="form-control"
-                           placeholder="Search Message"
-                           value="{{ request('search') }}">
+                        <input type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search Message"
+                            value="{{ request('search') }}">
 
-                </div>
+                    </div>
 
-                <div class="col-md-3">
+                    <div class="col-md-3">
 
-                    <select name="user" class="form-control">
+                        <select name="user" class="form-control">
 
-                        <option value="">All Users</option>
+                            <option value="">All Users</option>
 
-                        @foreach($users as $user)
+                            @foreach($users as $user)
 
                             <option value="{{ $user->id }}"
                                 {{ request('user') == $user->id ? 'selected' : '' }}>
@@ -111,19 +138,19 @@
 
                             </option>
 
-                        @endforeach
+                            @endforeach
 
-                    </select>
+                        </select>
 
-                </div>
+                    </div>
 
-                <div class="col-md-3">
+                    <div class="col-md-3">
 
-                    <select name="group" class="form-control">
+                        <select name="group" class="form-control">
 
-                        <option value="">All Groups</option>
+                            <option value="">All Groups</option>
 
-                        @foreach($groups as $group)
+                            @foreach($groups as $group)
 
                             <option value="{{ $group->id }}"
                                 {{ request('group') == $group->id ? 'selected' : '' }}>
@@ -132,84 +159,84 @@
 
                             </option>
 
-                        @endforeach
+                            @endforeach
 
-                    </select>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input type="date"
+                            name="date"
+                            class="form-control"
+                            value="{{ request('date') }}">
+
+                    </div>
+
+                    <div class="col-md-1">
+
+                        <button class="btn btn-primary">
+
+                            <i class="fas fa-search"></i>
+
+                        </button>
+
+                    </div>
 
                 </div>
 
-                <div class="col-md-2">
+                <div class="mt-3">
 
-                    <input type="date"
-                           name="date"
-                           class="form-control"
-                           value="{{ request('date') }}">
+                    <a href="{{ route('admin.reports.group-chat-report') }}"
+                        class="btn btn-secondary">
 
-                </div>
+                        Reset
 
-                <div class="col-md-1">
-
-                    <button class="btn btn-primary">
-
-                        <i class="fas fa-search"></i>
-
-                    </button>
+                    </a>
 
                 </div>
 
-            </div>
+            </form>
 
-            <div class="mt-3">
-
-                <a href="{{ route('admin.reports.group-chat-report') }}"
-                   class="btn btn-secondary">
-
-                    Reset
-
-                </a>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
+    <div class="card">
 
-</div>
-<div class="card">
+        <div class="card-header">
 
-    <div class="card-header">
+            <h3 class="card-title">
 
-        <h3 class="card-title">
+                Group Chat Messages
 
-            Group Chat Messages
+            </h3>
 
-        </h3>
+        </div>
 
-    </div>
+        <div class="card-body table-responsive">
 
-    <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover">
 
-        <table class="table table-bordered table-hover">
+                <thead>
 
-            <thead>
+                    <tr>
 
-                <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Group</th>
+                        <th>Message</th>
+                        <th>Attachment</th>
+                        <th>Date & Time</th>
+                        <th>Action</th>
 
-                    <th>#</th>
-                    <th>User</th>
-                    <th>Group</th>
-                    <th>Message</th>
-                    <th>Attachment</th>
-                    <th>Date & Time</th>
-                    <th>Action</th>
+                    </tr>
 
-                </tr>
+                </thead>
 
-            </thead>
+                <tbody>
 
-            <tbody>
-
-                @forelse($groupMessages as $message)
+                    @forelse($groupMessages as $message)
 
                     <tr>
 
@@ -237,19 +264,19 @@
 
                             @if($message->file)
 
-                                <span class="badge badge-success">
+                            <span class="badge badge-success">
 
-                                    Yes
+                                Yes
 
-                                </span>
+                            </span>
 
                             @else
 
-                                <span class="badge badge-secondary">
+                            <span class="badge badge-secondary">
 
-                                    No
+                                No
 
-                                </span>
+                            </span>
 
                             @endif
 
@@ -264,7 +291,7 @@
                         <td>
 
                             <a href="{{ route('admin.reports.group-chat-details',$message->id) }}"
-                               class="btn btn-info btn-sm">
+                                class="btn btn-info btn-sm">
 
                                 <i class="fas fa-eye"></i>
 
@@ -276,7 +303,7 @@
 
                     </tr>
 
-                @empty
+                    @empty
 
                     <tr>
 
@@ -289,21 +316,21 @@
 
                     </tr>
 
-                @endforelse
+                    @endforelse
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+
+        </div>
+
+        <div class="card-footer">
+
+            {{ $groupMessages->links('pagination::bootstrap-4') }}
+
+        </div>
 
     </div>
-
-    <div class="card-footer">
-
-        {{ $groupMessages->links('pagination::bootstrap-4') }}
-
-    </div>
-
-</div>
 
 </div>
 

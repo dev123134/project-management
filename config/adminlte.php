@@ -349,7 +349,7 @@ return [
 
             ],
         ],
-         [
+        [
             'text' => 'Meetings',
             'icon' => 'fas fa-video',
             'can' => 'freelancer',
@@ -600,11 +600,11 @@ return [
                     'icon' => 'fas fa-calendar',
                 ],
 
-                [
-                    'text' => 'Daily Updates',
-                    'url'  => '/daily-updates',
-                    'icon' => 'fas fa-clipboard-list',
-                ],
+                // [
+                //     'text' => 'Daily Updates',
+                //     'url'  => '/daily-updates',
+                //     'icon' => 'fas fa-clipboard-list',
+                // ],
 
             ],
         ],
@@ -903,7 +903,40 @@ return [
 
             ],
         ],
+        [
+            'text' => 'Finance Management',
+            'icon' => 'fas fa-money-bill-wave',
+            'can'  => 'admin',
 
+            'submenu' => [
+
+                [
+                    'text' => 'Invoice Management',
+                    'url'  => '/invoices',
+                    'icon' => 'fas fa-file-invoice-dollar',
+                ],
+
+                [
+                    'text' => 'Payment Management',
+                    'url'  => '/payments',
+                    'icon' => 'fas fa-money-check',
+                ],
+
+                [
+                    'text' => 'Payable Management',
+                    'url'  => '/payables',
+                    'icon' => 'fas fa-wallet',
+                ],
+
+                [
+                    'text' => 'Cash Flow Statement',
+                    'url'  => '/cash-flow',
+                    'icon' => 'fas fa-chart-line',
+                ],
+
+            ],
+
+        ],
         [
             'text' => 'Subscription Management',
             'icon' => 'fas fa-crown',

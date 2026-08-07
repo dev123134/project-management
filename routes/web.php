@@ -27,10 +27,10 @@ use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\TaskChecklistController;
-
-
-
-
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PayableController;
+use App\Http\Controllers\CashFlowController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -206,6 +206,52 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/reports/project-summary/pdf', [ReportController::class, 'projectSummaryPdf'])
             ->name('reports.project-summary.pdf');
+
+        Route::get('/reports/project-summary/csv', [ReportController::class, 'projectSummaryCsv'])->name('reports.project-summary.csv');
+
+        // PDF
+        Route::get('/reports/project-status/pdf', [ReportController::class, 'projectStatusPdf'])->name('reports.project-status.pdf');
+
+        // CSV
+        Route::get('/reports/project-status/csv', [ReportController::class, 'projectStatusCsv'])->name('reports.project-status.csv');
+
+        // User Wise Report PDF
+        Route::get('/reports/user-wise/pdf', [ReportController::class, 'userWisePdf'])->name('reports.user-wise.pdf');
+
+        // User Wise Report CSV
+        Route::get('/reports/user-wise/csv', [ReportController::class, 'userWiseCsv'])->name('reports.user-wise.csv');
+
+        // Milestone Report PDF
+        Route::get('/reports/milestone/pdf', [ReportController::class, 'milestonePdf'])->name('reports.milestone.pdf');
+
+        // Milestone Report CSV
+        Route::get('/reports/milestone/csv', [ReportController::class, 'milestoneCsv'])->name('reports.milestone.csv');
+
+        // Daily Work PDF
+        Route::get('/reports/daily-work/pdf', [ReportController::class, 'dailyWorkPdf'])->name('reports.daily-work.pdf');
+
+        // Daily Work CSV
+        Route::get('/reports/daily-work/csv', [ReportController::class, 'dailyWorkCsv'])->name('reports.daily-work.csv');
+
+        // Activity Log Report PDF
+        Route::get('/reports/activity-log/pdf', [ReportController::class, 'activityLogPdf'])->name('reports.activity-log.pdf');
+
+        // Activity Log Report CSV
+        Route::get('/reports/activity-log/csv', [ReportController::class, 'activityLogCsv'])->name('reports.activity-log.csv');
+
+        // Chat Usage Report PDF
+        Route::get('/reports/chat-usage/pdf', [ReportController::class, 'chatUsagePdf'])->name('reports.chat-usage.pdf');
+
+        // Chat Usage Report CSV
+        Route::get('/reports/chat-usage/csv', [ReportController::class, 'chatUsageCsv'])->name('reports.chat-usage.csv');
+
+        // Group Chat Report PDF
+        Route::get('/reports/group-chat/pdf',[ReportController::class, 'groupChatPdf'])->name('reports.group-chat.pdf');
+
+        // Group Chat Report CSV
+        Route::get('/reports/group-chat/csv',[ReportController::class, 'groupChatCsv'])->name('reports.group-chat.csv');
+
+        
     });
 
 Route::get('/client/dashboard', [ClientDashboardController::class, 'index'])
@@ -432,6 +478,34 @@ Route::middleware(['auth'])->group(function () {
         [TaskChecklistController::class, 'update']
     )->name('tasks.checklist.update');
 });
+
+Route::resource('invoices', InvoiceController::class);
+
+Route::get(
+    '/invoices/{invoice}/pdf',
+    [InvoiceController::class, 'downloadPdf']
+)
+    ->name('invoices.pdf');
+
+Route::get(
+    '/invoices/{invoice}/print',
+    [InvoiceController::class, 'print']
+)
+    ->name('invoices.print');
+
+
+Route::resource('payments', PaymentController::class);
+Route::get('/payments/invoice/{invoice}', [PaymentController::class, 'getInvoiceDetails'])
+    ->name('payments.invoice.details');
+
+Route::resource('payables', PayableController::class);
+
+Route::view('/cash-flow', 'coming-soon')->name('cashflow.index');
+
+Route::get('/cash-flow', [CashFlowController::class, 'index'])
+    ->name('cashflow.index');
+
+
 
 
 require __DIR__ . '/auth.php';

@@ -8,13 +8,45 @@
 
     <div class="container-fluid">
 
-        <div class="row mb-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
-            <div class="col-sm-6">
-                <h3>
-                    <i class="fas fa-tasks"></i>
-                    Project Status Report
-                </h3>
+            <h2 class="mb-2 mb-md-0">
+
+                <i class="fas fa-clipboard-list"></i>
+
+                Project Status Report
+
+            </h2>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a href="{{ route('admin.reports.project-status.pdf') }}"
+                    class="btn btn-danger">
+
+                    <i class="fas fa-file-pdf"></i>
+
+                    PDF Export
+
+                </a>
+
+                <a href="{{ route('admin.reports.project-status.csv') }}"
+                    class="btn btn-success">
+
+                    <i class="fas fa-file-excel"></i>
+
+                    CSV Export
+
+                </a>
+
+                <!-- <a href="{{ url()->previous() }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a> -->
+
             </div>
 
         </div>

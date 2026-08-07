@@ -6,130 +6,157 @@
 
 <div class="container-fluid">
 
-<div class="row mb-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
-<div class="col-md-6">
+        <h2 class="mb-2 mb-md-0">
 
-<h2>
+            <i class="fas fa-history"></i>
 
-<i class="fas fa-history"></i>
+            Activity Log Report
 
-Activity Log Report
+        </h2>
 
-</h2>
+        <div class="d-flex flex-wrap gap-2">
 
-</div>
+            <a href="{{ route('admin.reports.activity-log.pdf') }}"
+                class="btn btn-danger">
 
-</div>
+                <i class="fas fa-file-pdf"></i>
 
-<div class="row">
+                PDF Export
 
-<div class="col-md-4">
+            </a>
 
-<div class="small-box bg-primary">
+            <a href="{{ route('admin.reports.activity-log.csv') }}"
+                class="btn btn-success">
 
-<div class="inner">
+                <i class="fas fa-file-excel"></i>
 
-<h3>{{ $totalLogs }}</h3>
+                CSV Export
 
-<p>Total Logs</p>
+            </a>
 
-</div>
+            <!-- <a href="{{ url()->previous() }}"
+           class="btn btn-secondary">
 
-<div class="icon">
+            <i class="fas fa-arrow-left"></i>
 
-<i class="fas fa-history"></i>
+            Back
 
-</div>
+        </a> -->
 
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="small-box bg-success">
-
-<div class="inner">
-
-<h3>{{ $todayLogs }}</h3>
-
-<p>Today's Logs</p>
-
-</div>
-
-<div class="icon">
-
-<i class="fas fa-calendar-day"></i>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="small-box bg-warning">
-
-<div class="inner">
-
-<h3>{{ $thisMonthLogs }}</h3>
-
-<p>This Month</p>
-
-</div>
-
-<div class="icon">
-
-<i class="fas fa-calendar-alt"></i>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="card card-primary">
-
-    <div class="card-header">
-
-        <h3 class="card-title">
-
-            Search & Filter
-
-        </h3>
+        </div>
 
     </div>
 
-    <div class="card-body">
+    <div class="row">
 
-        <form method="GET">
+        <div class="col-md-4">
 
-            <div class="row">
+            <div class="small-box bg-primary">
 
-                <div class="col-md-5">
+                <div class="inner">
 
-                    <input
-                        type="text"
-                        name="search"
-                        class="form-control"
-                        placeholder="Search Activity"
-                        value="{{ request('search') }}">
+                    <h3>{{ $totalLogs }}</h3>
+
+                    <p>Total Logs</p>
 
                 </div>
 
-                <div class="col-md-3">
+                <div class="icon">
 
-                    <select
-                        name="user"
-                        class="form-control">
+                    <i class="fas fa-history"></i>
 
-                        <option value="">All Users</option>
+                </div>
 
-                        @foreach($users as $user)
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="small-box bg-success">
+
+                <div class="inner">
+
+                    <h3>{{ $todayLogs }}</h3>
+
+                    <p>Today's Logs</p>
+
+                </div>
+
+                <div class="icon">
+
+                    <i class="fas fa-calendar-day"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="small-box bg-warning">
+
+                <div class="inner">
+
+                    <h3>{{ $thisMonthLogs }}</h3>
+
+                    <p>This Month</p>
+
+                </div>
+
+                <div class="icon">
+
+                    <i class="fas fa-calendar-alt"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card card-primary">
+
+        <div class="card-header">
+
+            <h3 class="card-title">
+
+                Search & Filter
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-5">
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Search Activity"
+                            value="{{ request('search') }}">
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select
+                            name="user"
+                            class="form-control">
+
+                            <option value="">All Users</option>
+
+                            @foreach($users as $user)
 
                             <option
                                 value="{{ $user->id }}"
@@ -139,87 +166,87 @@ Activity Log Report
 
                             </option>
 
-                        @endforeach
+                            @endforeach
 
-                    </select>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <input
+                            type="date"
+                            name="date"
+                            class="form-control"
+                            value="{{ request('date') }}">
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button class="btn btn-primary">
+
+                            Search
+
+                        </button>
+
+                        <a
+                            href="{{ route('admin.reports.activity-log-report') }}"
+                            class="btn btn-secondary">
+
+                            Reset
+
+                        </a>
+
+                    </div>
 
                 </div>
 
-                <div class="col-md-2">
+            </form>
 
-                    <input
-                        type="date"
-                        name="date"
-                        class="form-control"
-                        value="{{ request('date') }}">
-
-                </div>
-
-                <div class="col-md-2">
-
-                    <button class="btn btn-primary">
-
-                        Search
-
-                    </button>
-
-                    <a
-                        href="{{ route('admin.reports.activity-log-report') }}"
-                        class="btn btn-secondary">
-
-                        Reset
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
-</div>
+    <div class="card">
 
-<div class="card">
+        <div class="card-header">
 
-    <div class="card-header">
+            <h3 class="card-title">
 
-        <h3 class="card-title">
+                Activity Log List
 
-            Activity Log List
+            </h3>
 
-        </h3>
+        </div>
 
-    </div>
+        <div class="card-body table-responsive">
 
-    <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover">
 
-        <table class="table table-bordered table-hover">
+                <thead>
 
-            <thead>
+                    <tr>
 
-                <tr>
+                        <th>#</th>
 
-                    <th>#</th>
+                        <th>User</th>
 
-                    <th>User</th>
+                        <th>Role</th>
 
-                    <th>Role</th>
+                        <th>Activity</th>
 
-                    <th>Activity</th>
+                        <th>Date & Time</th>
 
-                    <th>Date & Time</th>
+                        <th>Action</th>
 
-                    <th>Action</th>
+                    </tr>
 
-                </tr>
+                </thead>
 
-            </thead>
+                <tbody>
 
-            <tbody>
-
-                @forelse($activityLogs as $log)
+                    @forelse($activityLogs as $log)
 
                     <tr>
 
@@ -249,7 +276,7 @@ Activity Log Report
 
                     </tr>
 
-                @empty
+                    @empty
 
                     <tr>
 
@@ -261,21 +288,21 @@ Activity Log Report
 
                     </tr>
 
-                @endforelse
+                    @endforelse
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+
+        </div>
+
+        <div class="card-footer">
+
+            {{ $activityLogs->links('pagination::bootstrap-4') }}
+
+        </div>
 
     </div>
-
-    <div class="card-footer">
-
-        {{ $activityLogs->links('pagination::bootstrap-4') }}
-
-    </div>
-
-</div>
 
 </div>
 

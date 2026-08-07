@@ -84,4 +84,30 @@ public function meetingParticipants()
 {
     return $this->hasMany(MeetingParticipant::class);
 }
+
+
+public function invoices()
+{
+    return $this->hasMany(Invoice::class, 'created_by');
+}
+
+public function receivedPayments()
+{
+    return $this->hasMany(Payment::class, 'received_by');
+}
+
+public function projects()
+{
+    return $this->belongsToMany(
+        Project::class,
+        'project_members'
+    );
+}
+
+public function dailyUpdates()
+{
+    return $this->hasMany(DailyUpdate::class);
+}
+
+
 }

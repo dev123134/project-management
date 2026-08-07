@@ -6,17 +6,44 @@
 
 <div class="container-fluid">
 
-    <div class="row mb-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
-        <div class="col-md-6">
+        <h2 class="mb-2 mb-md-0">
 
-            <h2>
+            <i class="fas fa-flag-checkered"></i>
 
-                <i class="fas fa-flag-checkered"></i>
+            Milestone Report
 
-                Milestone Report
+        </h2>
 
-            </h2>
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="{{ route('admin.reports.milestone.pdf') }}"
+                class="btn btn-danger">
+
+                <i class="fas fa-file-pdf"></i>
+
+                PDF Export
+
+            </a>
+
+            <a href="{{ route('admin.reports.milestone.csv') }}"
+                class="btn btn-success">
+
+                <i class="fas fa-file-excel"></i>
+
+                CSV Export
+
+            </a>
+
+            <!-- <a href="{{ url()->previous() }}"
+           class="btn btn-secondary">
+
+            <i class="fas fa-arrow-left"></i>
+
+            Back
+
+        </a> -->
 
         </div>
 

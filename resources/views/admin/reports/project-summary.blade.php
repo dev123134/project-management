@@ -8,16 +8,39 @@
     <div class="container-fluid">
 
         <h3 class="mb-4">
-            <i class="fas fa-chart-pie"></i>
-            Project Summary Report
-            <a href="{{ route('admin.reports.project-summary.pdf') }}"
-   class="btn btn-danger me-2 float-right">
 
-    <i class="fas fa-file-pdf"></i>
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
 
-    PDF Export
+                <h2 class="mb-2 mb-md-0">
 
-</a>    
+                    <i class="fas fa-chart-pie"></i>
+
+                    Project Summary Report
+
+                </h2>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a href="{{ route('admin.reports.project-summary.pdf') }}"
+                        class="btn btn-danger">
+                        <i class="fas fa-file-pdf"></i>
+                        PDF
+                    </a>
+
+                    <a href="{{ route('admin.reports.project-summary.csv') }}"
+                        class="btn btn-success">
+                        <i class="fas fa-file-excel"></i>
+                        CSV
+                    </a>
+
+                    <!-- <a href="{{ url()->previous() }}"
+       class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i>
+        Back
+    </a> -->
+
+                </div>
+            </div>
         </h3>
 
         <div class="row">
